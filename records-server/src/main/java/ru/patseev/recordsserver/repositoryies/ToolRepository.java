@@ -1,6 +1,7 @@
 package ru.patseev.recordsserver.repositoryies;
 
 import org.springframework.data.jpa.repository.JpaRepository;
+import org.springframework.data.jpa.repository.Modifying;
 import org.springframework.data.jpa.repository.Query;
 import ru.patseev.recordsserver.domain.Tool;
 
@@ -12,6 +13,4 @@ public interface ToolRepository extends JpaRepository<Tool,String> {
 
     Tool findByCode(String code);
 
-    @Query("delete from Tool T where t.code = :code")
-    void deleteByCode(String code);
 }

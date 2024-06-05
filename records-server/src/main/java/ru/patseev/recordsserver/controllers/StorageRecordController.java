@@ -1,10 +1,7 @@
 package ru.patseev.recordsserver.controllers;
 
 import lombok.RequiredArgsConstructor;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RequestParam;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
 import ru.patseev.recordsserver.domain.enums.Department;
 import ru.patseev.recordsserver.domain.StorageRecord;
 import ru.patseev.recordsserver.domain.enums.ToolType;
@@ -41,7 +38,7 @@ public class StorageRecordController {
     }
 
 
-    @GetMapping("worker_lastname")
+    @GetMapping("/worker_lastname")
     public List<StorageRecord> getRecordsByWorkerLastName(
             @RequestParam(name = "workerLastName") String workerLastName,
             @RequestParam(name = "department") Department department
@@ -50,5 +47,10 @@ public class StorageRecordController {
                 department,
                 workerLastName
         );
+    }
+
+    @PostMapping("/add")
+    public StorageRecord addRecord(@RequestBody StorageRecord record) {
+      return   storageRecordService.save(record);
     }
 }

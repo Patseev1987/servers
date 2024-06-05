@@ -11,3 +11,5 @@ spring:
         show_sql: true
         hbm2ddl:
           auto: update
+server:
+  port: 8085

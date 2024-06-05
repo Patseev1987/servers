@@ -37,9 +37,5 @@ public class ToolController {
     public Tool updateTool(@RequestBody Tool tool) {
         return toolService.addTool(tool);
     }
-    //delete tool by code
-    @DeleteMapping("/delete")
-    public void deleteToolByCode(@RequestParam String code) {
-        toolService.deleteTool(code);
-    }
+
 }
