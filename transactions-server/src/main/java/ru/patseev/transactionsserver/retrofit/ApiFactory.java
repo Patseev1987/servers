@@ -14,18 +14,11 @@ public class ApiFactory {
     private final MicroservicesUrls urls;
 
     Retrofit retrofitTools = new Retrofit.Builder()
-            .baseUrl(urls.getToolServerUrl())
+            .baseUrl(urls.getServerUrl())
             .addConverterFactory(GsonConverterFactory.create())
             .build();
-
-    Retrofit retrofitWorkers = new Retrofit.Builder()
-            .baseUrl(urls.getWorkerServerUrl())
-            .addConverterFactory(GsonConverterFactory.create())
-            .build();
-
     @Getter
-    ApiTools apiTools = retrofitTools.create(ApiTools.class);
+    ApiRecords apiTools = retrofitTools.create(ApiRecords.class);
 
-    @Getter
-    ApiWorkers apiWorkers = retrofitWorkers.create(ApiWorkers.class);
+
 }

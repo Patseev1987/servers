@@ -7,6 +7,10 @@ import ru.patseev.transactionsserver.domain.Department;
 import ru.patseev.transactionsserver.domain.StorageRecord;
 import ru.patseev.transactionsserver.domain.Transaction;
 import ru.patseev.transactionsserver.repository.TransactionsRepository;
+import ru.patseev.transactionsserver.retrofit.ApiFactory;
+import ru.patseev.transactionsserver.retrofit.ApiRecords;
+
+import java.io.IOException;
 import java.util.ArrayList;
 import java.util.Comparator;
 import java.util.List;
@@ -19,10 +23,12 @@ import static ru.patseev.transactionsserver.domain.Department.SHARPENING;
 @RequiredArgsConstructor
 public class TransactionService {
     private final TransactionsRepository transactionsRepository;
-    private final StorageRecordService storageRecordService;
+    private final ApiFactory api;
+
 
     @Transactional
     public Transaction createTransaction(Transaction transaction) {
+        changeStorageRecord(transaction);
         return transactionsRepository.save(transaction);
     }
 
@@ -33,36 +39,44 @@ public class TransactionService {
 
     @Transactional
     void changeStorageRecord(Transaction transaction) {
-        var senderStorageRecord = storageRecordService.getStorageRecordByWorkerAndTool(
-                transaction.getSender(),
-                transaction.getTool()
-        );
-        var receiverStorageRecord = storageRecordService.getStorageRecordByWorkerAndTool(
-                transaction.getReceiver(),
-                transaction.getTool()
-        );
+        StorageRecord senderStorageRecord;
+        StorageRecord receiverStorageRecord;
+        try {
+            senderStorageRecord = api.getApiTools()
+                    .getRecordByWorkerIdAndToolCode(
+                            transaction.getSender().getId(),
+                            transaction.getTool().getCode()
+                    ).execute().body();
+           receiverStorageRecord = api.getApiTools()
+                   .getRecordByWorkerIdAndToolCode(
+                           transaction.getReceiver().getId(),
+                           transaction.getTool().getCode()
+                   ).execute().body();
+        } catch (IOException e) {
+            throw new RuntimeException(e);
+        }
 
-        if (senderStorageRecord.isPresent()) {
-            int newValue = senderStorageRecord.get().getAmount() - transaction.getAmount();
-            senderStorageRecord.get().setAmount(newValue);
+
+        if (senderStorageRecord != null) {
+            int newValue = senderStorageRecord.getAmount() - transaction.getAmount();
+            senderStorageRecord.setAmount(newValue);
             if (newValue < 0) {
                 throw new RuntimeException("Negative amount not allowed");
             }
-
-            storageRecordService.save(senderStorageRecord.get());
+            api.getApiTools().addRecord(senderStorageRecord);
         } else {
             throw new RuntimeException("sender storage record not found");
         }
-        if (receiverStorageRecord.isPresent()) {
-            int newValue = receiverStorageRecord.get().getAmount() + transaction.getAmount();
-            receiverStorageRecord.get().setAmount(newValue);
-            storageRecordService.save(receiverStorageRecord.get());
+        if (receiverStorageRecord != null ) {
+            int newValue = receiverStorageRecord.getAmount() + transaction.getAmount();
+            receiverStorageRecord.setAmount(newValue);
+            api.getApiTools().addRecord(receiverStorageRecord);
         } else {
             var newStorageRecord = new StorageRecord();
             newStorageRecord.setAmount(transaction.getAmount());
             newStorageRecord.setTool(transaction.getTool());
             newStorageRecord.setWorker(transaction.getReceiver());
-            storageRecordService.save(newStorageRecord);
+            api.getApiTools().addRecord(newStorageRecord);
         }
     }
 

@@ -2,8 +2,8 @@ package ru.patseev.transactionsserver.controller;
 
 import lombok.AllArgsConstructor;
 import org.springframework.web.bind.annotation.*;
-import ru.patseev.transactionsserver.domain.Department;
 import ru.patseev.transactionsserver.service.TransactionService;
+import ru.patseev.transactionsserver.domain.Department;
 import ru.patseev.transactionsserver.domain.Transaction;
 
 import java.util.List;
@@ -12,23 +12,23 @@ import static ru.patseev.transactionsserver.domain.Department.*;
 
 
 @RestController
-@RequestMapping("/api/transactions")
+@RequestMapping("/transactions")
 @AllArgsConstructor
 public class TransactionController {
     private final TransactionService transactionService;
 
-    @PostMapping("/create")
+    @PostMapping("/transaction/create")
     public Transaction createTransaction(@RequestBody Transaction transaction) {
         return transactionService.createTransaction(transaction);
     }
 
-    @GetMapping()
+    @GetMapping("/transactions")
     public List<Transaction> getAllTransactions() {
         return transactionService.getAllTransactions();
     }
 
 
-    @GetMapping("/worker")
+    @GetMapping("/transactions/worker")
     public List<Transaction> getTransactionsBySurname(
             @RequestParam(name = "workerId") Long workerId,
             @RequestParam(value = "page",defaultValue = "0") Integer page
@@ -36,7 +36,7 @@ public class TransactionController {
         return transactionService.getTransactionsBySurnameSenderAndReceiver(workerId,page);
     }
 
-    @GetMapping("/actionWithAnotherDepartments")
+    @GetMapping("/transactions/actionWithAnotherDepartments")
     public List<Transaction> getDecommissionedTools(
             @RequestParam(name = "anotherDepartment") Department anotherDepartment,
             @RequestParam(name = "toolCode", defaultValue = "") String toolCode

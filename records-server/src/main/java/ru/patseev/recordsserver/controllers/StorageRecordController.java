@@ -53,4 +53,12 @@ public class StorageRecordController {
     public StorageRecord addRecord(@RequestBody StorageRecord record) {
       return   storageRecordService.save(record);
     }
+
+    @GetMapping("/record_by_worker_id_an_tool_code")
+    public StorageRecord getRecordByWorkerIdAndToolCode(
+            @RequestParam(name = "workerId") Long workerId,
+            @RequestParam(name = "toolCode") String toolCode
+    ){
+        return storageRecordService.getStorageRecordByWorkerAndTool(workerId, toolCode).orElseThrow();
+    }
 }

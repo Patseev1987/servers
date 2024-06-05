@@ -15,5 +15,4 @@ spring:
 server:
   port: 8084
 urls:
-  tool-server-url: http//:localhost:8083/
-  worker-server-url: http//:localhost:8082/
+  server-url: http//:localhost:8085/

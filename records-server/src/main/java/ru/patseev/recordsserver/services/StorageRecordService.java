@@ -15,13 +15,15 @@ import ru.patseev.recordsserver.repositoryies.WorkerRepository;
 
 import java.time.LocalDate;
 import java.util.List;
+import java.util.Optional;
 
 
 @Service
 @RequiredArgsConstructor
 public class StorageRecordService {
     private final StorageRecordRepository storageRecordRepository;
-
+    private final ToolService toolService;
+    private final WorkerService workerService;
 
     //get all records
     public List<StorageRecord> getAllRecords() {
@@ -52,6 +54,13 @@ public class StorageRecordService {
                 return records.get(0).getAmount();
             }
         }
+
+
+    public Optional<StorageRecord> getStorageRecordByWorkerAndTool(Long workerId, String toolCode) {
+        var worker = workerService.getWorkerById(workerId);
+        var tool = toolService.getToolByCode(toolCode);
+        return storageRecordRepository.findStorageRecordByWorkerAndTool(worker, tool);
+    }
 
         private void initData() {
 

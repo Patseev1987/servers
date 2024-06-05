@@ -1,6 +1,5 @@
 package ru.patseev.transactionsserver.domain;
 
-import com.fasterxml.jackson.annotation.JsonFormat;
 import jakarta.persistence.*;
 import lombok.Data;
 import lombok.NoArgsConstructor;
@@ -8,23 +7,24 @@ import lombok.NoArgsConstructor;
 import java.time.LocalDate;
 
 @Data
+@Entity
+@Table(name = "workers_table")
 @NoArgsConstructor
 public class Worker {
-
+    @Id
+    @GeneratedValue (strategy = GenerationType.IDENTITY)
     private Long id;
-    @Transient
+    @Column(name = "first_name")
     private String firstName;
-    @Transient
+    @Column(name = "last_name")
     private String lastName;
-    @Transient
     private String patronymic;
-    @Transient
+    @Enumerated(EnumType.STRING)
     private WorkerType type;
-    @Transient
+    @Column(name = "join_date")
     private LocalDate joinDate;
-    @Transient
+    @Enumerated(EnumType.STRING)
     private Department department;
-    @Transient
     private String login;
-
+    private String password;
 }

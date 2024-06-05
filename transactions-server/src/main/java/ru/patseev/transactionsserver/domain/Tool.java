@@ -2,28 +2,29 @@ package ru.patseev.transactionsserver.domain;
 
 
 import jakarta.persistence.*;
-import lombok.AllArgsConstructor;
-import lombok.Builder;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 
 @Data
 @NoArgsConstructor
-@AllArgsConstructor
+@Entity
+@Table(name = "tools_table")
 public class Tool {
-
+    @Id
     private String code;
-    @Transient
     private String name;
-    @Transient
     private String description;
-    @Transient
+    @Column(name = "additional_info")
     private String additionalInfo;
-    @Transient
     private String icon;
-    @Transient
+    @Embedded
+    @AttributeOverrides({
+            @AttributeOverride( name = "shelf", column = @Column(name = "place_shelf")),
+            @AttributeOverride( name = "column", column = @Column(name = "place_column")),
+            @AttributeOverride( name = "row", column = @Column(name = "place_row"))
+    })
     private Place place;
-    @Transient
+    @Enumerated (EnumType.STRING)
     private ToolType type;
 
 }
