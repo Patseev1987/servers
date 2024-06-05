@@ -13,7 +13,7 @@ import ru.patseev.transactionsserver.properties.MicroservicesUrls;
 @Component
 public class ApiFactory {
 
-    private final String BASE_URL = "http//:localhost:8085/";
+    private final String BASE_URL = "http://localhost:8085/";
 
     Retrofit retrofitTools = new Retrofit.Builder()
             .baseUrl(BASE_URL)
