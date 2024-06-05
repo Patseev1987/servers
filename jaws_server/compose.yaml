@@ -1,0 +1,11 @@
+services:
+  postgres1:
+    container_name: postgres1
+    image: bitnami/postgresql:13.14.0
+    environment:
+      - POSTGRES_USER=jaws
+      - POSTGRES_PASSWORD=jaws
+      - POSTGRES_DB=jaws
+    ports:
+      - "5432:5432"
+

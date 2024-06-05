@@ -1,0 +1,19 @@
+spring:
+  datasource:
+    driver-class-name: org.postgresql.Driver
+    username: jaws
+    password: jaws
+    url: jdbc:postgresql://localhost:5432/jaws
+  application:
+    name: transaction-server
+  jpa:
+    properties:
+      hibernate:
+        show_sql: true
+        hbm2ddl:
+          auto: update
+server:
+  port: 8084
+urls:
+  tool-server-url: http//:localhost:8083/
+  worker-server-url: http//:localhost:8082/
