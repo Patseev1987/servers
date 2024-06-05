@@ -8,8 +8,19 @@
         <outputRelativeToContentRoot value="true" />
         <module name="eureka_server" />
         <module name="jaws_server" />
+        <module name="transactions-server" />
+        <module name="records-server" />
         <module name="my_gateway_server" />
       </profile>
     </annotationProcessing>
+  </component>
+  <component name="JavacSettings">
+    <option name="ADDITIONAL_OPTIONS_OVERRIDE">
+      <module name="eureka_server" options="-parameters" />
+      <module name="jaws_server" options="-parameters" />
+      <module name="my_gateway_server" options="-parameters" />
+      <module name="records-server" options="-parameters" />
+      <module name="transactions-server" options="-parameters" />
+    </option>
   </component>
 </project>
