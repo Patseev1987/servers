@@ -26,7 +26,7 @@ public class StorageRecordService {
     private final WorkerService workerService;
 
     {
-     //   initData();
+        initData();
     }
 
     //get all records

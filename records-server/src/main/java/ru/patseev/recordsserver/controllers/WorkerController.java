@@ -4,7 +4,9 @@ import lombok.RequiredArgsConstructor;
 import org.springframework.web.bind.annotation.*;
 import ru.patseev.recordsserver.domain.enums.Department;
 import ru.patseev.recordsserver.domain.Worker;
+import ru.patseev.recordsserver.retrofit.ApiFactory;
 import ru.patseev.recordsserver.services.WorkerService;
+import ru.patseev.recordsserver.utils.MyMapper;
 
 import java.util.List;
 
@@ -13,6 +15,7 @@ import java.util.List;
 @RequiredArgsConstructor
 public class WorkerController {
     private final WorkerService workerService;
+
     //get workers
     @GetMapping
     public List<Worker> getAllWorkers() {
@@ -43,9 +46,5 @@ public class WorkerController {
     public Worker updateWorker(@RequestBody Worker worker) {
         return createWorker(worker);
     }
-    //delete worker by id
-    @DeleteMapping("/delete/{id}")
-    public void deleteWorker(@PathVariable Long id) {
-        workerService.delete(id);
-    }
+
 }

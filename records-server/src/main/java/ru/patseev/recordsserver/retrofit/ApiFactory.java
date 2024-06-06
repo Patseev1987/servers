@@ -1,4 +1,4 @@
-package ru.patseev.transactionsserver.retrofit;
+package ru.patseev.recordsserver.retrofit;
 
 import lombok.Getter;
 import lombok.RequiredArgsConstructor;
@@ -10,14 +10,13 @@ import retrofit2.converter.jackson.JacksonConverterFactory;
 @Component
 public class ApiFactory {
 
-    private final String BASE_URL = "http://localhost:8085/";
+    private final String BASE_URL = "http://localhost:8084/";
 
-    Retrofit retrofitRecords = new Retrofit.Builder()
+    Retrofit retrofitTransactions = new Retrofit.Builder()
             .baseUrl(BASE_URL)
             .addConverterFactory(JacksonConverterFactory.create())
             .build();
     @Getter
-    ApiRecords apiRecords = retrofitRecords.create(ApiRecords.class);
-
+    ApiTransactions apiTransactions = retrofitTransactions.create(ApiTransactions.class);
 
 }

@@ -14,5 +14,3 @@ spring:
           auto: update
 server:
   port: 8084
-urls:
-  server-url: http//:localhost:8085/

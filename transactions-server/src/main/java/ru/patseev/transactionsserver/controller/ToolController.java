@@ -9,7 +9,7 @@ import ru.patseev.transactionsserver.service.TransactionService;
 import java.util.List;
 
 @RestController
-@RequestMapping("/transaction/tools")
+@RequestMapping("/transactions/tools")
 @RequiredArgsConstructor
 public class ToolController {
     private final ToolService toolService;

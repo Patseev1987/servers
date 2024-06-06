@@ -2,22 +2,28 @@ package ru.patseev.recordsserver.services;
 
 
 import lombok.AllArgsConstructor;
+import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 import ru.patseev.recordsserver.domain.Place;
 import ru.patseev.recordsserver.domain.Tool;
 import ru.patseev.recordsserver.domain.enums.ToolType;
 import ru.patseev.recordsserver.repositoryies.ToolRepository;
+import ru.patseev.recordsserver.retrofit.ApiFactory;
+import ru.patseev.recordsserver.utils.MyMapper;
 
+import java.io.IOException;
 import java.util.List;
 
 @Service
-@AllArgsConstructor
+@RequiredArgsConstructor
 public class ToolService {
     private final ToolRepository toolRepository;
+    private final ApiFactory api;
+    private final MyMapper mapper;
 
     {
-      //  initData();
+       initData();
     }
 
     //get all tools
@@ -34,7 +40,14 @@ public class ToolService {
     }
     //add tool
     public Tool addTool(Tool tool) {
-        return toolRepository.save(tool);
+        var newTool = toolRepository.save(tool);
+      var sss =  api.getApiTransactions().addTool(mapper.toToolDTO(tool));
+        try {
+            System.out.println("toolDTO -> " + sss.execute().body());
+        } catch (IOException e) {
+            throw new RuntimeException(e);
+        }
+        return newTool;
     }
 
 
@@ -105,12 +118,12 @@ public class ToolService {
                     .build();
 
             try {
-                Thread.sleep(500);
+                Thread.sleep(1500);
             }catch (InterruptedException e){
                 e.printStackTrace();
             }
             var tools = List.of(tool7,tool1,tool2,tool3,tool4,tool5,tool6);
-            toolRepository.saveAll(tools);
+            tools.forEach(tool -> addTool(tool));
         }
         ).start();
     }

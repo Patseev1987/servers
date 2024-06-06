@@ -6,27 +6,37 @@ import ru.patseev.recordsserver.domain.Worker;
 import ru.patseev.recordsserver.domain.enums.Department;
 import ru.patseev.recordsserver.domain.enums.WorkerType;
 import ru.patseev.recordsserver.repositoryies.WorkerRepository;
+import ru.patseev.recordsserver.retrofit.ApiFactory;
+import ru.patseev.recordsserver.utils.MyMapper;
 
+import java.io.IOException;
 import java.time.LocalDate;
 import java.util.List;
 
 @Service
 @RequiredArgsConstructor
 public class WorkerService {
+
     private final WorkerRepository workerRepository;
+    private final ApiFactory api;
+    private final MyMapper mapper;
 
     {
-      //  initData();
+       initData();
     }
 
     //add worker
     public Worker create(Worker worker) {
-        return workerRepository.save(worker);
+        var newWorker =  workerRepository.save(worker);
+       var www = api.getApiTransactions().addWorker(mapper.toWorkerDTO(worker));
+        try {
+            System.out.println("workerDTO -> " + www.execute().body());
+        } catch (IOException e) {
+            throw new RuntimeException(e);
+        }
+        return newWorker;
     }
-    //delete worker by id
-    public void delete(Long workerId) {
-        workerRepository.deleteById(workerId);
-    }
+
     //get all workers
     public List<Worker> getAllWorkers() {
         return workerRepository.findAll();
@@ -95,7 +105,7 @@ public class WorkerService {
             var workers = List.of(worker1, worker2, worker3, worker4);
             try {
                 Thread.sleep(500L);
-                workerRepository.saveAll(workers);
+                workers.forEach(worker -> create(worker));
             } catch (InterruptedException e) {
                 throw new RuntimeException(e);
             }
