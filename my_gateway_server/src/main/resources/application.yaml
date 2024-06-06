@@ -9,14 +9,14 @@ spring:
   cloud:
     gateway:
       routes:
-        - id: my-microservice-tools
-          uri: http://localhost:8083/
+        - id: my-microservice-transactions
+          uri: http://localhost:8084/
           predicates:
-            - Path=/tools/**
-        - id: my-microservice-workers
-          uri: http://localhost:8082/
+            - Path=/transactions/**
+        - id: my-microservice-storage-records
+          uri: http://localhost:8085/
           predicates:
-            - Path=/workers/**
+            - Path=/records/**
         - id: my-microservice-jaws
           uri: http://localhost:8081/
           predicates:

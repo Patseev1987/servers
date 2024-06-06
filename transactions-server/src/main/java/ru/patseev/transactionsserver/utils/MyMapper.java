@@ -22,9 +22,9 @@ public class MyMapper {
         WorkerDTO receiver;
         ToolDTO tool;
         try {
-            sender = api.getApiTools().getWorkerById(transaction.getSender().getId()).execute().body();
-            receiver = api.getApiTools().getWorkerById(transaction.getReceiver().getId()).execute().body();
-            tool = api.getApiTools().getToolByCode(transaction.getTool().getCode()).execute().body();
+            sender = api.getApiRecords().getWorkerById(transaction.getSender().getId()).execute().body();
+            receiver = api.getApiRecords().getWorkerById(transaction.getReceiver().getId()).execute().body();
+            tool = api.getApiRecords().getToolByCode(transaction.getTool().getCode()).execute().body();
         } catch (IOException e) {
             throw new RuntimeException(e);
         }

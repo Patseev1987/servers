@@ -1,6 +1,5 @@
 package ru.patseev.transactionsserver.service;
 
-import jakarta.transaction.Transactional;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 import ru.patseev.transactionsserver.domain.enums.Department;
@@ -41,14 +40,14 @@ public class TransactionService {
         StorageRecord senderStorageRecord;
         StorageRecord receiverStorageRecord;
         try {
-            senderStorageRecord = api.getApiTools()
+            senderStorageRecord = api.getApiRecords()
                     .getRecordByWorkerIdAndToolCode(
                             transaction.getSender().getId(),
                             transaction.getTool().getCode()
                     ).execute().body();
             System.out.println(senderStorageRecord);
 
-            receiverStorageRecord = api.getApiTools()
+            receiverStorageRecord = api.getApiRecords()
                     .getRecordByWorkerIdAndToolCode(
                             transaction.getReceiver().getId(),
                             transaction.getTool().getCode()
@@ -65,21 +64,21 @@ public class TransactionService {
             if (newValue < 0) {
                 throw new RuntimeException("Negative amount not allowed");
             }
-            api.getApiTools().addRecord(senderStorageRecord);
+            api.getApiRecords().addRecord(senderStorageRecord);
         } else {
             throw new RuntimeException("sender storage record not found");
         }
         if (receiverStorageRecord.getId() != -1) {
             int newValue = receiverStorageRecord.getAmount() + transaction.getAmount();
             receiverStorageRecord.setAmount(newValue);
-            api.getApiTools().addRecord(receiverStorageRecord);
+            api.getApiRecords().addRecord(receiverStorageRecord);
         } else {
             var transactionDTO = mapper.toTransactionDTO(transaction);
             var newStorageRecord = new StorageRecord();
             newStorageRecord.setAmount(transactionDTO.getAmount());
             newStorageRecord.setTool(transactionDTO.getTool());
             newStorageRecord.setWorker(transactionDTO.getReceiver());
-            api.getApiTools().addRecord(newStorageRecord);
+            api.getApiRecords().addRecord(newStorageRecord);
         }
     }
 
