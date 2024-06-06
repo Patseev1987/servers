@@ -1,4 +1,4 @@
-package ru.patseev.transactionsserver.domain;
+package ru.patseev.transactionsserver.domain.enums;
 
 public enum ToolType {
     CUTTING,

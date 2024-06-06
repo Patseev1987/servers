@@ -3,12 +3,12 @@ package ru.patseev.transactionsserver.controller;
 import lombok.AllArgsConstructor;
 import org.springframework.web.bind.annotation.*;
 import ru.patseev.transactionsserver.service.TransactionService;
-import ru.patseev.transactionsserver.domain.Department;
+import ru.patseev.transactionsserver.domain.enums.Department;
 import ru.patseev.transactionsserver.domain.Transaction;
 
 import java.util.List;
 
-import static ru.patseev.transactionsserver.domain.Department.*;
+import static ru.patseev.transactionsserver.domain.enums.Department.*;
 
 
 @RestController

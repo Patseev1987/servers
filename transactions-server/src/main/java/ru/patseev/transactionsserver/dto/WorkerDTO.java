@@ -1,6 +1,8 @@
-package ru.patseev.transactionsserver.domain;
+package ru.patseev.transactionsserver.dto;
 
 import jakarta.persistence.*;
+import lombok.AllArgsConstructor;
+import lombok.Builder;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 import ru.patseev.transactionsserver.domain.enums.Department;
@@ -9,16 +11,19 @@ import ru.patseev.transactionsserver.domain.enums.WorkerType;
 import java.time.LocalDate;
 
 @Data
-@Entity
-@Table(name = "workers")
 @NoArgsConstructor
-public class Worker {
-    @Id
-    @Column(name = "id")
-    private Long id;
-    @Column(name = "first_name")
-    private String firstName;
-    @Column(name = "last_name")
-    private String lastName;
+@AllArgsConstructor
+@Builder
+public class WorkerDTO {
 
+    private Long id;
+    private String firstName;
+    private String lastName;
+    private String patronymic;
+    private WorkerType type;
+
+    private LocalDate joinDate;
+    private Department department;
+    private String login;
+    private String password;
 }

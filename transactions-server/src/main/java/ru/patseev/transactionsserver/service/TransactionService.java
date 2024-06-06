@@ -3,20 +3,19 @@ package ru.patseev.transactionsserver.service;
 import jakarta.transaction.Transactional;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
-import ru.patseev.transactionsserver.domain.Department;
+import ru.patseev.transactionsserver.domain.enums.Department;
 import ru.patseev.transactionsserver.domain.StorageRecord;
 import ru.patseev.transactionsserver.domain.Transaction;
 import ru.patseev.transactionsserver.repository.TransactionsRepository;
 import ru.patseev.transactionsserver.retrofit.ApiFactory;
-import ru.patseev.transactionsserver.retrofit.ApiRecords;
 
 import java.io.IOException;
 import java.util.ArrayList;
 import java.util.Comparator;
 import java.util.List;
 
-import static ru.patseev.transactionsserver.domain.Department.DEPARTMENT_19;
-import static ru.patseev.transactionsserver.domain.Department.SHARPENING;
+import static ru.patseev.transactionsserver.domain.enums.Department.DEPARTMENT_19;
+import static ru.patseev.transactionsserver.domain.enums.Department.SHARPENING;
 
 
 @Service

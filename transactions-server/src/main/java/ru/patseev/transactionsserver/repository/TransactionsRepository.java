@@ -2,7 +2,7 @@ package ru.patseev.transactionsserver.repository;
 
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.data.jpa.repository.Query;
-import ru.patseev.transactionsserver.domain.Department;
+import ru.patseev.transactionsserver.domain.enums.Department;
 import ru.patseev.transactionsserver.domain.Transaction;
 
 import java.util.List;

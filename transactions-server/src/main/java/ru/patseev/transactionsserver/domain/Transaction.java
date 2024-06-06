@@ -1,6 +1,8 @@
 package ru.patseev.transactionsserver.domain;
 
 import jakarta.persistence.*;
+import lombok.AllArgsConstructor;
+import lombok.Builder;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 
@@ -8,22 +10,20 @@ import java.time.LocalDate;
 
 @Data
 @NoArgsConstructor
-@Entity
-@Table( name = "transactions_table")
+@AllArgsConstructor
+@Builder
 public class Transaction {
     @Id
     @GeneratedValue (strategy = GenerationType.IDENTITY)
     private Long id;
-    @ManyToOne
-    @JoinColumn(name = "sender_id")
-    private Worker sender;
-    @ManyToOne
-    @JoinColumn(name = "receiver_id")
-    private Worker receiver;
+    @Column(name = "sender_id")
+    private Long senderId;
+    @Column(name = "receiver_id")
+    private Long receiverId;
+    @Column(name = "amount")
     private Integer amount;
-    @ManyToOne
-    @JoinColumn(name = "tool_code")
-    private Tool tool;
+    @Column(name = "tool_code")
+    private String toolCode;
     @Column(name = "transaction_date")
     private LocalDate transactionDate;
 }
