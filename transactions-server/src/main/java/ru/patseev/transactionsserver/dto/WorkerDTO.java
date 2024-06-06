@@ -30,5 +30,4 @@ public class WorkerDTO {
     private LocalDate joinDate;
     private Department department;
     private String login;
-    private String password;
 }

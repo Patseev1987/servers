@@ -73,21 +73,21 @@ public class TransactionService {
             }
          var sender =  api.getApiRecords().updateRecord(senderStorageRecord);
 
-//            try {
-//                System.out.println("sender records update -> " + sender.execute().body());
-//            } catch (IOException e) {
-//                throw new RuntimeException(e);
-//            }
+            try {
+                System.out.println("sender records update -> " + sender.execute().body());
+            } catch (IOException e) {
+                throw new RuntimeException(e);
+            }
         }
         if (receiverStorageRecord != null && receiverStorageRecord.getId() != -1) {
             int newValue = receiverStorageRecord.getAmount() + transaction.getAmount();
             receiverStorageRecord.setAmount(newValue);
           var receiver =  api.getApiRecords().updateRecord(receiverStorageRecord);
-//            try {
-//                System.out.println("sender records update -> " + receiver.execute().body());
-//            } catch (IOException e) {
-//                throw new RuntimeException(e);
-//            }
+            try {
+                System.out.println("sender records update -> " + receiver.execute().body());
+            } catch (IOException e) {
+                throw new RuntimeException(e);
+            }
 
         } else {
             var transactionDTO = mapper.toTransactionDTO(transaction);
@@ -96,11 +96,11 @@ public class TransactionService {
             newStorageRecord.setTool(transactionDTO.getTool());
             newStorageRecord.setWorker(transactionDTO.getReceiver());
           var newnewnew =  api.getApiRecords().addRecord(newStorageRecord);
-//            try {
-//                System.out.println("sender records update -> " + newnewnew.execute().body());
-//            } catch (IOException e) {
-//                throw new RuntimeException(e);
-//            }
+            try {
+                System.out.println("sender records update -> " + newnewnew.execute().body());
+            } catch (IOException e) {
+                throw new RuntimeException(e);
+            }
         }
     }
 
