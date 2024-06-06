@@ -1,11 +1,10 @@
 package ru.patseev.transactionsserver.retrofit;
 
-import org.springframework.web.bind.annotation.RequestBody;
 import retrofit2.Call;
 import retrofit2.http.*;
 import ru.patseev.transactionsserver.domain.enums.Department;
-import ru.patseev.transactionsserver.domain.StorageRecord;
 import ru.patseev.transactionsserver.domain.enums.ToolType;
+import ru.patseev.transactionsserver.dto.StorageRecordDTO;
 import ru.patseev.transactionsserver.dto.ToolDTO;
 import ru.patseev.transactionsserver.dto.WorkerDTO;
 
@@ -14,16 +13,16 @@ import java.util.List;
 public interface ApiRecords {
 
     @POST("records/add")
-    Call<StorageRecord> addRecord(@Body StorageRecord record);
+    Call<StorageRecordDTO> addRecord(@Body StorageRecordDTO record);
 
     @GET("records/worker_lastname")
-    Call<List<StorageRecord>> getRecordsByWorkerLastName(
+    Call<List<StorageRecordDTO>> getRecordsByWorkerLastName(
             @Query("workerLastName") String workerLastName,
             @Query("department") Department department
     );
 
     @GET("records")
-    Call<List<StorageRecord>> getRecords();
+    Call<List<StorageRecordDTO>> getRecords();
 
     @GET("records/amount")
     Call<Integer> getAmountByWorkerIdAndToolCode(
@@ -32,14 +31,14 @@ public interface ApiRecords {
     );
 
     @GET("records/workerId")
-    Call<List<StorageRecord>> getRecordsByWorkerId(
+    Call<List<StorageRecordDTO>> getRecordsByWorkerId(
             @Query("workerId") Long workerId,
             @Query("toolType") ToolType toolType,
             @Query("toolCode") String toolCode
     );
 
     @GET("records/record_by_worker_id_an_tool_code")
-    Call<StorageRecord> getRecordByWorkerIdAndToolCode(
+    Call<StorageRecordDTO> getRecordByWorkerIdAndToolCode(
             @Query("workerId") Long workerId,
             @Query("toolCode") String toolCode
     );
@@ -49,4 +48,7 @@ public interface ApiRecords {
 
     @GET("records/tools/{code}")
     Call<ToolDTO> getToolByCode(@Path("code") String toolCode);
+
+    @PUT("records/update")
+    Call<StorageRecordDTO> updateRecord(@Body StorageRecordDTO record);
 }

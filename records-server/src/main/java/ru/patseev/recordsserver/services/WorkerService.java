@@ -22,7 +22,7 @@ public class WorkerService {
     private final MyMapper mapper;
 
     {
-       initData();
+      // initData();
     }
 
     //add worker

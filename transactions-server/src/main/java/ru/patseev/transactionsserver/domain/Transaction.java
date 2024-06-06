@@ -3,16 +3,14 @@ package ru.patseev.transactionsserver.domain;
 import com.fasterxml.jackson.databind.annotation.JsonDeserialize;
 import com.fasterxml.jackson.databind.annotation.JsonSerialize;
 import jakarta.persistence.*;
-import lombok.AllArgsConstructor;
-import lombok.Builder;
-import lombok.Data;
-import lombok.NoArgsConstructor;
+import lombok.*;
 import ru.patseev.transactionsserver.utils.LocalDateDeserializer;
 import ru.patseev.transactionsserver.utils.LocalDateSerializer;
 
 import java.time.LocalDate;
 
-@Data
+@Getter
+@Setter
 @NoArgsConstructor
 @AllArgsConstructor
 @Builder

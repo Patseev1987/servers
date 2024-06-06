@@ -18,7 +18,7 @@ import static ru.patseev.transactionsserver.domain.enums.Department.*;
 public class TransactionController {
     private final TransactionService transactionService;
 
-    @PostMapping("/transaction/create")
+    @PostMapping("/transactions/create")
     public Transaction createTransaction(@RequestBody Transaction transaction) {
         return transactionService.createTransaction(transaction);
     }

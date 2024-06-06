@@ -26,49 +26,53 @@ public class StorageRecordService {
     private final WorkerService workerService;
 
     {
-        initData();
+        //   initData();
     }
 
     //get all records
     public List<StorageRecord> getAllRecords() {
         return storageRecordRepository.findAll();
     }
+
     //get records with param
     public List<StorageRecord> getStorageRecordsByWorkerIdWithParam(Long workerId, ToolType toolType, String toolCode) {
-            return storageRecordRepository.findAllByWorkerIdWithToolTypeAndCode(workerId, toolType, toolCode);
+        return storageRecordRepository.findAllByWorkerIdWithToolTypeAndCode(workerId, toolType, toolCode);
     }
+
     //get records by worker lastname
     public List<StorageRecord> getAllStorageRecordsByWorkerLastName(Department department, String lastName) {
         return storageRecordRepository.findAllByWorkerLastname(department, lastName);
     }
+
     //add record
     public StorageRecord save(StorageRecord storageRecord) {
-       return storageRecordRepository.save(storageRecord);
+        return storageRecordRepository.save(storageRecord);
     }
+
     //get amount by worker id and tool code
     public Integer getAmountByWorkerIdAndToolCode(Long workerId, String toolCode) {
 
-            var records = storageRecordRepository.findAllByWorkerId(workerId);
-            records = records.stream()
-                    .filter(record -> record.getTool().getCode().equals(toolCode))
-                    .toList();
-            if (records.isEmpty()) {
-                return -1;
-            } else {
-                return records.get(0).getAmount();
-            }
+        var records = storageRecordRepository.findAllByWorkerId(workerId);
+        records = records.stream()
+                .filter(record -> record.getTool().getCode().equals(toolCode))
+                .toList();
+        if (records.isEmpty()) {
+            return -1;
+        } else {
+            return records.get(0).getAmount();
         }
+    }
 
-
+    //get record by workerId and toolCode
     public Optional<StorageRecord> getStorageRecordByWorkerAndTool(Long workerId, String toolCode) {
         var worker = workerService.getWorkerById(workerId);
         var tool = toolService.getToolByCode(toolCode);
         return storageRecordRepository.findStorageRecordByWorkerAndTool(worker, tool);
     }
 
-        private void initData() {
+    private void initData() {
 
-        new Thread(()-> {
+        new Thread(() -> {
             try {
 
 
@@ -88,7 +92,7 @@ public class StorageRecordService {
                         .name("CNMG120404")
                         .description("Inner")
                         .type(ToolType.CUTTING)
-                        .place(new Place("1","2","3"))
+                        .place(new Place("1", "2", "3"))
                         .icon("http://ff.ru")
                         .build();
 
@@ -97,7 +101,7 @@ public class StorageRecordService {
                         .name("CNMG120408")
                         .description("Inner")
                         .type(ToolType.CUTTING)
-                        .place(new Place("1","2","3"))
+                        .place(new Place("1", "2", "3"))
                         .icon("http://ff.ru")
                         .build();
 
@@ -106,7 +110,7 @@ public class StorageRecordService {
                         .name("DNMG150604")
                         .description("Inner")
                         .type(ToolType.CUTTING)
-                        .place(new Place("1","2","3"))
+                        .place(new Place("1", "2", "3"))
                         .icon("http://ff.ru")
                         .build();
 
@@ -115,7 +119,7 @@ public class StorageRecordService {
                         .name("DNMG150604")
                         .description("Inner")
                         .type(ToolType.CUTTING)
-                        .place(new Place("1","2","3"))
+                        .place(new Place("1", "2", "3"))
                         .icon("http://ff.ru")
                         .build();
 
@@ -124,7 +128,7 @@ public class StorageRecordService {
                         .name("some tool")
                         .description("Some Tool")
                         .type(ToolType.MEASURE)
-                        .place(new Place("1","2","3"))
+                        .place(new Place("1", "2", "3"))
                         .icon("http://ff.ru")
                         .build();
 
@@ -133,7 +137,7 @@ public class StorageRecordService {
                         .name("measure tool")
                         .description("some tool")
                         .type(ToolType.MEASURE)
-                        .place(new Place("1","2","3"))
+                        .place(new Place("1", "2", "3"))
                         .icon("http://ff.ru")
                         .build();
 
@@ -142,13 +146,10 @@ public class StorageRecordService {
                         .name("for machine")
                         .description("helper")
                         .type(ToolType.HELPERS)
-                        .place(new Place("1","2","3"))
+                        .place(new Place("1", "2", "3"))
                         .icon("http://ff.ru")
                         .build();
                 Thread.sleep(3000);
-
-
-
 
 
                 var record1 = StorageRecord.builder()
@@ -202,5 +203,5 @@ public class StorageRecordService {
             }
         }).start();
 
-        }
+    }
 }

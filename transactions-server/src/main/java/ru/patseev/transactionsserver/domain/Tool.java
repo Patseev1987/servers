@@ -2,13 +2,11 @@ package ru.patseev.transactionsserver.domain;
 
 
 import jakarta.persistence.*;
-import lombok.AllArgsConstructor;
-import lombok.Builder;
-import lombok.Data;
-import lombok.NoArgsConstructor;
+import lombok.*;
 import ru.patseev.transactionsserver.domain.enums.ToolType;
 
-@Data
+@Getter
+@Setter
 @NoArgsConstructor
 @Entity
 @Table(name = "tools_transactions")

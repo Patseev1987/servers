@@ -16,6 +16,7 @@ public class ApiFactory {
             .baseUrl(BASE_URL)
             .addConverterFactory(JacksonConverterFactory.create())
             .build();
+
     @Getter
     ApiTransactions apiTransactions = retrofitTransactions.create(ApiTransactions.class);
 
