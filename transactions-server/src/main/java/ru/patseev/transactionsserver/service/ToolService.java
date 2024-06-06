@@ -6,6 +6,7 @@ import ru.patseev.transactionsserver.domain.Tool;
 import ru.patseev.transactionsserver.repository.ToolRepository;
 
 import java.util.List;
+import java.util.Optional;
 
 @Service
 @RequiredArgsConstructor
@@ -16,8 +17,8 @@ public class ToolService {
         return toolRepository.save(tool);
     }
     //get tool by Code
-    public Tool getToolByCode(String code) {
-        return toolRepository.findByCode(code).orElse(null);
+    public Optional<Tool> getToolByCode(String code) {
+        return toolRepository.findByCode(code);
     }
     //get tools
     public List<Tool> getAllTools() {

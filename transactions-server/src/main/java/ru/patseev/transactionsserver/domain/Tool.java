@@ -11,7 +11,7 @@ import ru.patseev.transactionsserver.domain.enums.ToolType;
 @Data
 @NoArgsConstructor
 @Entity
-@Table(name = "tools")
+@Table(name = "tools_transactions")
 @Builder
 @AllArgsConstructor
 public class Tool {

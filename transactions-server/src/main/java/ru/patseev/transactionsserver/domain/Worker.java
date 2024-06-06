@@ -11,7 +11,7 @@ import ru.patseev.transactionsserver.domain.enums.Department;
 
 @Data
 @Entity
-@Table(name = "workers")
+@Table(name = "workers_transaction")
 @NoArgsConstructor
 @Builder
 @AllArgsConstructor
