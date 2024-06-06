@@ -45,13 +45,13 @@ public class TransactionService {
         try {
             senderStorageRecord = api.getApiTools()
                     .getRecordByWorkerIdAndToolCode(
-                            transaction.getSenderId(),
-                            transaction.getToolCode()
+                            transaction.getSender().getId(),
+                            transaction.getTool().getCode()
                     ).execute().body();
            receiverStorageRecord = api.getApiTools()
                    .getRecordByWorkerIdAndToolCode(
-                           transaction.getReceiverId(),
-                           transaction.getToolCode()
+                           transaction.getReceiver().getId(),
+                           transaction.getTool().getCode()
                    ).execute().body();
         } catch (IOException e) {
             throw new RuntimeException(e);

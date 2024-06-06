@@ -24,6 +24,7 @@ public class Worker {
     @Column(name = "last_name")
     private String lastName;
     @Column (name = "department")
+    @Enumerated(EnumType.STRING)
     private Department department;
 
 }
