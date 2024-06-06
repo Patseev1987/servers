@@ -2,10 +2,7 @@ package ru.patseev.transactionsserver.retrofit;
 
 import org.springframework.web.bind.annotation.RequestBody;
 import retrofit2.Call;
-import retrofit2.http.GET;
-import retrofit2.http.POST;
-import retrofit2.http.Path;
-import retrofit2.http.Query;
+import retrofit2.http.*;
 import ru.patseev.transactionsserver.domain.enums.Department;
 import ru.patseev.transactionsserver.domain.StorageRecord;
 import ru.patseev.transactionsserver.domain.enums.ToolType;
@@ -17,7 +14,7 @@ import java.util.List;
 public interface ApiRecords {
 
     @POST("records/add")
-    Call<StorageRecord> addRecord(@RequestBody StorageRecord record);
+    Call<StorageRecord> addRecord(@Body StorageRecord record);
 
     @GET("records/worker_lastname")
     Call<List<StorageRecord>> getRecordsByWorkerLastName(

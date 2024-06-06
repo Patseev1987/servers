@@ -15,7 +15,9 @@ import java.util.List;
 public class WorkerService {
     private final WorkerRepository workerRepository;
 
-
+    {
+      //  initData();
+    }
 
     //add worker
     public Worker create(Worker worker) {

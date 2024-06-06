@@ -25,6 +25,10 @@ public class StorageRecordService {
     private final ToolService toolService;
     private final WorkerService workerService;
 
+    {
+     //   initData();
+    }
+
     //get all records
     public List<StorageRecord> getAllRecords() {
         return storageRecordRepository.findAll();
@@ -191,7 +195,7 @@ public class StorageRecordService {
 
 
                 var records = List.of(record1, record2, record3, record4, record5, record6, record7);
-
+                Thread.sleep(3000);
                 storageRecordRepository.saveAll(records);
             } catch (InterruptedException e) {
 

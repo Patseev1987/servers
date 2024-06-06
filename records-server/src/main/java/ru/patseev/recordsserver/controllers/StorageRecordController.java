@@ -59,6 +59,9 @@ public class StorageRecordController {
             @RequestParam(name = "workerId") Long workerId,
             @RequestParam(name = "toolCode") String toolCode
     ){
-        return storageRecordService.getStorageRecordByWorkerAndTool(workerId, toolCode).orElseThrow();
+        return storageRecordService.getStorageRecordByWorkerAndTool(workerId, toolCode)
+                .orElse(StorageRecord.builder()
+                        .id(-1L)
+                        .build());
     }
 }

@@ -1,6 +1,8 @@
 package ru.patseev.recordsserver.domain;
 
 import com.fasterxml.jackson.annotation.JsonFormat;
+import com.fasterxml.jackson.databind.annotation.JsonDeserialize;
+import com.fasterxml.jackson.databind.annotation.JsonSerialize;
 import jakarta.persistence.*;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
@@ -8,6 +10,8 @@ import lombok.Data;
 import lombok.NoArgsConstructor;
 import ru.patseev.recordsserver.domain.enums.Department;
 import ru.patseev.recordsserver.domain.enums.WorkerType;
+import ru.patseev.recordsserver.utils.LocalDateDeserializer;
+import ru.patseev.recordsserver.utils.LocalDateSerializer;
 
 import java.time.LocalDate;
 
@@ -30,7 +34,8 @@ public class Worker {
     @Enumerated(EnumType.STRING)
     private WorkerType type;
     @Column(name = "join_date")
-    @JsonFormat(pattern = "yyyy.MM.dd")
+    @JsonDeserialize(using = LocalDateDeserializer.class)
+    @JsonSerialize(using = LocalDateSerializer.class)
     private LocalDate joinDate;
     @Enumerated(EnumType.STRING)
     @Column(name = "department")

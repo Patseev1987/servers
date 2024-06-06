@@ -27,19 +27,17 @@ public class TransactionService {
     private final MyMapper mapper;
 
 
-    @Transactional
     public Transaction createTransaction(Transaction transaction) {
         changeStorageRecord(transaction);
         return transactionsRepository.save(transaction);
     }
 
-
     public List<Transaction> getAllTransactions() {
         return transactionsRepository.findAll();
     }
 
-    @Transactional
-  public   void changeStorageRecord(Transaction transaction) {
+
+    public void changeStorageRecord(Transaction transaction) {
         StorageRecord senderStorageRecord;
         StorageRecord receiverStorageRecord;
         try {
@@ -48,17 +46,20 @@ public class TransactionService {
                             transaction.getSender().getId(),
                             transaction.getTool().getCode()
                     ).execute().body();
-           receiverStorageRecord = api.getApiTools()
-                   .getRecordByWorkerIdAndToolCode(
-                           transaction.getReceiver().getId(),
-                           transaction.getTool().getCode()
-                   ).execute().body();
+            System.out.println(senderStorageRecord);
+
+            receiverStorageRecord = api.getApiTools()
+                    .getRecordByWorkerIdAndToolCode(
+                            transaction.getReceiver().getId(),
+                            transaction.getTool().getCode()
+                    ).execute().body();
+            System.out.println(receiverStorageRecord);
         } catch (IOException e) {
             throw new RuntimeException(e);
         }
 
 
-        if (senderStorageRecord != null) {
+        if (senderStorageRecord.getId() != -1) {
             int newValue = senderStorageRecord.getAmount() - transaction.getAmount();
             senderStorageRecord.setAmount(newValue);
             if (newValue < 0) {
@@ -68,7 +69,7 @@ public class TransactionService {
         } else {
             throw new RuntimeException("sender storage record not found");
         }
-        if (receiverStorageRecord != null ) {
+        if (receiverStorageRecord.getId() != -1) {
             int newValue = receiverStorageRecord.getAmount() + transaction.getAmount();
             receiverStorageRecord.setAmount(newValue);
             api.getApiTools().addRecord(receiverStorageRecord);
@@ -98,10 +99,10 @@ public class TransactionService {
     public List<Transaction> getTransactionsWithSharpening(String toolCode) {
         var result = new ArrayList<Transaction>();
         var toSharpen = getTransactionsBySenderDepartmentAndReceiverDepartment(
-                DEPARTMENT_19, SHARPENING,toolCode
+                DEPARTMENT_19, SHARPENING, toolCode
         );
         var fromSharpen = getTransactionsBySenderDepartmentAndReceiverDepartment(
-                SHARPENING, DEPARTMENT_19,toolCode
+                SHARPENING, DEPARTMENT_19, toolCode
         );
         result.addAll(toSharpen);
         result.addAll(fromSharpen);

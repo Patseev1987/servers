@@ -1,6 +1,7 @@
 package ru.patseev.transactionsserver.controller;
 
 import lombok.AllArgsConstructor;
+import org.springframework.transaction.annotation.Transactional;
 import org.springframework.web.bind.annotation.*;
 import ru.patseev.transactionsserver.service.TransactionService;
 import ru.patseev.transactionsserver.domain.enums.Department;
