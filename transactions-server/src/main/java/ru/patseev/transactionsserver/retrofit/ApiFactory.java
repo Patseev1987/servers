@@ -7,6 +7,7 @@ import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Component;
 import retrofit2.Retrofit;
 import retrofit2.converter.gson.GsonConverterFactory;
+import retrofit2.converter.jackson.JacksonConverterFactory;
 import ru.patseev.transactionsserver.properties.MicroservicesUrls;
 
 @RequiredArgsConstructor
@@ -17,7 +18,7 @@ public class ApiFactory {
 
     Retrofit retrofitTools = new Retrofit.Builder()
             .baseUrl(BASE_URL)
-            .addConverterFactory(GsonConverterFactory.create())
+            .addConverterFactory(JacksonConverterFactory.create())
             .build();
     @Getter
     ApiRecords apiTools = retrofitTools.create(ApiRecords.class);
