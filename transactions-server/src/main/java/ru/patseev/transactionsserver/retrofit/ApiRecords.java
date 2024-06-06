@@ -13,7 +13,7 @@ import java.util.List;
 public interface ApiRecords {
 
     @POST("records/add")
-    Call<StorageRecordDTO> addRecord(@Body StorageRecordDTO record);
+    Call<Void> addRecord(@Body StorageRecordDTO record);
 
     @GET("records/worker_lastname")
     Call<List<StorageRecordDTO>> getRecordsByWorkerLastName(
@@ -50,5 +50,5 @@ public interface ApiRecords {
     Call<ToolDTO> getToolByCode(@Path("code") String toolCode);
 
     @PUT("records/update")
-    Call<StorageRecordDTO> updateRecord(@Body StorageRecordDTO record);
+    Call<Void> updateRecord(@Body StorageRecordDTO record);
 }

@@ -10,8 +10,6 @@ import ru.patseev.recordsserver.domain.enums.Department;
 import ru.patseev.recordsserver.domain.enums.ToolType;
 import ru.patseev.recordsserver.domain.enums.WorkerType;
 import ru.patseev.recordsserver.repositoryies.StorageRecordRepository;
-import ru.patseev.recordsserver.repositoryies.ToolRepository;
-import ru.patseev.recordsserver.repositoryies.WorkerRepository;
 
 import java.time.LocalDate;
 import java.util.List;
@@ -26,7 +24,7 @@ public class StorageRecordService {
     private final WorkerService workerService;
 
     {
-        //   initData();
+           initData();
     }
 
     //get all records
