@@ -4,10 +4,13 @@ import org.springframework.web.bind.annotation.RequestBody;
 import retrofit2.Call;
 import retrofit2.http.GET;
 import retrofit2.http.POST;
+import retrofit2.http.Path;
 import retrofit2.http.Query;
 import ru.patseev.transactionsserver.domain.enums.Department;
 import ru.patseev.transactionsserver.domain.StorageRecord;
 import ru.patseev.transactionsserver.domain.enums.ToolType;
+import ru.patseev.transactionsserver.dto.ToolDTO;
+import ru.patseev.transactionsserver.dto.WorkerDTO;
 
 import java.util.List;
 
@@ -38,9 +41,15 @@ public interface ApiRecords {
             @Query("toolCode") String toolCode
     );
 
-    @GET("/records/record_by_worker_id_an_tool_code")
+    @GET("records/record_by_worker_id_an_tool_code")
     Call<StorageRecord> getRecordByWorkerIdAndToolCode(
             @Query("workerId") Long workerId,
             @Query("toolCode") String toolCode
     );
+
+    @GET("records/workers/{id}")
+    Call<WorkerDTO> getWorkerById(@Path("id") Long workerId);
+
+    @GET("records/tools/{code}")
+    Call<ToolDTO> getToolByCode(@Path("code") String toolCode);
 }

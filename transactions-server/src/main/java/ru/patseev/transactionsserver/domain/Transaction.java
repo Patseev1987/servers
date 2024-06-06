@@ -1,10 +1,14 @@
 package ru.patseev.transactionsserver.domain;
 
+import com.fasterxml.jackson.databind.annotation.JsonDeserialize;
+import com.fasterxml.jackson.databind.annotation.JsonSerialize;
 import jakarta.persistence.*;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Data;
 import lombok.NoArgsConstructor;
+import ru.patseev.transactionsserver.utils.LocalDateDeserializer;
+import ru.patseev.transactionsserver.utils.LocalDateSerializer;
 
 import java.time.LocalDate;
 
@@ -12,18 +16,24 @@ import java.time.LocalDate;
 @NoArgsConstructor
 @AllArgsConstructor
 @Builder
+@Entity
+@Table(name = "transactions")
 public class Transaction {
     @Id
     @GeneratedValue (strategy = GenerationType.IDENTITY)
     private Long id;
-    @Column(name = "sender_id")
-    private Long senderId;
-    @Column(name = "receiver_id")
-    private Long receiverId;
-    @Column(name = "amount")
+    @ManyToOne
+    @JoinColumn(name = "sender_id")
+    private Worker sender;
+    @ManyToOne
+    @JoinColumn(name = "receiver_id")
+    private Worker receiver;
     private Integer amount;
-    @Column(name = "tool_code")
-    private String toolCode;
+    @ManyToOne
+    @JoinColumn(name = "tool_code")
+    private Tool tool;
     @Column(name = "transaction_date")
+    @JsonDeserialize(using = LocalDateDeserializer.class)
+    @JsonSerialize(using = LocalDateSerializer.class)
     private LocalDate transactionDate;
 }

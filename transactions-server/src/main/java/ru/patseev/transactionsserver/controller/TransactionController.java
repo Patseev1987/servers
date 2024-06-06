@@ -30,10 +30,9 @@ public class TransactionController {
 
     @GetMapping("/transactions/worker")
     public List<Transaction> getTransactionsBySurname(
-            @RequestParam(name = "workerId") Long workerId,
-            @RequestParam(value = "page",defaultValue = "0") Integer page
+            @RequestParam(name = "workerId") Long workerId
     ) {
-        return transactionService.getTransactionsBySurnameSenderAndReceiver(workerId,page);
+        return transactionService.getTransactionsBySurnameSenderAndReceiver(workerId);
     }
 
     @GetMapping("/transactions/actionWithAnotherDepartments")

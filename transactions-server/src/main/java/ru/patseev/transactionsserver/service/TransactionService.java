@@ -8,6 +8,7 @@ import ru.patseev.transactionsserver.domain.StorageRecord;
 import ru.patseev.transactionsserver.domain.Transaction;
 import ru.patseev.transactionsserver.repository.TransactionsRepository;
 import ru.patseev.transactionsserver.retrofit.ApiFactory;
+import ru.patseev.transactionsserver.utils.MyMapper;
 
 import java.io.IOException;
 import java.util.ArrayList;
@@ -23,6 +24,7 @@ import static ru.patseev.transactionsserver.domain.enums.Department.SHARPENING;
 public class TransactionService {
     private final TransactionsRepository transactionsRepository;
     private final ApiFactory api;
+    private final MyMapper mapper;
 
 
     @Transactional
@@ -37,19 +39,19 @@ public class TransactionService {
     }
 
     @Transactional
-    void changeStorageRecord(Transaction transaction) {
+  public   void changeStorageRecord(Transaction transaction) {
         StorageRecord senderStorageRecord;
         StorageRecord receiverStorageRecord;
         try {
             senderStorageRecord = api.getApiTools()
                     .getRecordByWorkerIdAndToolCode(
-                            transaction.getSender().getId(),
-                            transaction.getTool().getCode()
+                            transaction.getSenderId(),
+                            transaction.getToolCode()
                     ).execute().body();
            receiverStorageRecord = api.getApiTools()
                    .getRecordByWorkerIdAndToolCode(
-                           transaction.getReceiver().getId(),
-                           transaction.getTool().getCode()
+                           transaction.getReceiverId(),
+                           transaction.getToolCode()
                    ).execute().body();
         } catch (IOException e) {
             throw new RuntimeException(e);
@@ -71,17 +73,17 @@ public class TransactionService {
             receiverStorageRecord.setAmount(newValue);
             api.getApiTools().addRecord(receiverStorageRecord);
         } else {
+            var transactionDTO = mapper.toTransactionDTO(transaction);
             var newStorageRecord = new StorageRecord();
-            newStorageRecord.setAmount(transaction.getAmount());
-            newStorageRecord.setTool(transaction.getTool());
-            newStorageRecord.setWorker(transaction.getReceiver());
+            newStorageRecord.setAmount(transactionDTO.getAmount());
+            newStorageRecord.setTool(transactionDTO.getTool());
+            newStorageRecord.setWorker(transactionDTO.getReceiver());
             api.getApiTools().addRecord(newStorageRecord);
         }
     }
 
-    public List<Transaction> getTransactionsBySurnameSenderAndReceiver(Long workerId, Integer page) {
-        Integer offset = page * 200;
-        return transactionsRepository.findTransactionsBySurnameSenderAndReceiver(workerId, offset);
+    public List<Transaction> getTransactionsBySurnameSenderAndReceiver(Long workerId) {
+        return transactionsRepository.findTransactionsBySurnameSenderAndReceiver(workerId);
     }
 
     public List<Transaction> getTransactionsBySenderDepartmentAndReceiverDepartment(Department senderDepartment,

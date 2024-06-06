@@ -1,24 +1,21 @@
 package ru.patseev.transactionsserver.domain;
 
 import jakarta.persistence.*;
+import lombok.AllArgsConstructor;
+import lombok.Builder;
 import lombok.Data;
 import lombok.NoArgsConstructor;
+import ru.patseev.transactionsserver.dto.ToolDTO;
+import ru.patseev.transactionsserver.dto.WorkerDTO;
 
 @Data
 @NoArgsConstructor
-@Entity
-@Table(name = "storage_record_table")
-
+@AllArgsConstructor
+@Builder
 public class StorageRecord {
-    @Id
-    @GeneratedValue(strategy = GenerationType.IDENTITY)
+
     private Long id;
-    @ManyToOne
-    @JoinColumn(name = "tool_code")
-    private Tool tool;
-    @ManyToOne
-    @JoinColumn(name = "worker_id")
-    private Worker worker;
-    @Column(name = "amount")
+    private ToolDTO tool;
+    private WorkerDTO worker;
     private Integer amount;
 }

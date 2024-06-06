@@ -1,17 +1,20 @@
 package ru.patseev.transactionsserver.domain;
 
 import jakarta.persistence.*;
+import lombok.AllArgsConstructor;
+import lombok.Builder;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 import ru.patseev.transactionsserver.domain.enums.Department;
-import ru.patseev.transactionsserver.domain.enums.WorkerType;
 
-import java.time.LocalDate;
+
 
 @Data
 @Entity
 @Table(name = "workers")
 @NoArgsConstructor
+@Builder
+@AllArgsConstructor
 public class Worker {
     @Id
     @Column(name = "id")
@@ -20,5 +23,7 @@ public class Worker {
     private String firstName;
     @Column(name = "last_name")
     private String lastName;
+    @Column (name = "department")
+    private Department department;
 
 }
