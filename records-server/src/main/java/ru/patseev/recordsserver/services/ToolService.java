@@ -23,7 +23,7 @@ public class ToolService {
     private final MyMapper mapper;
 
     {
-       initData();
+      // initData();
     }
 
     //get all tools
