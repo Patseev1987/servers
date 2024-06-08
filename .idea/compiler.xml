@@ -8,6 +8,7 @@
         <sourceTestOutputDir name="target/generated-test-sources/test-annotations" />
         <outputRelativeToContentRoot value="true" />
         <module name="eureka_server" />
+        <module name="security-auth-server" />
         <module name="jaws_server" />
         <module name="transactions-server" />
         <module name="records-server" />
@@ -21,6 +22,7 @@
       <module name="jaws_server" options="-parameters" />
       <module name="my_gateway_server" options="-parameters" />
       <module name="records-server" options="-parameters" />
+      <module name="security-auth-server" options="-parameters" />
       <module name="transactions-server" options="-parameters" />
     </option>
   </component>

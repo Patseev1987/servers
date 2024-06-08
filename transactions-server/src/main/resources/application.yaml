@@ -5,7 +5,7 @@ spring:
     password: jaws
     url: jdbc:postgresql://localhost:5432/jaws
   application:
-    name: transaction-server
+    name: transactions-server
   jpa:
     properties:
       hibernate:
@@ -14,3 +14,11 @@ spring:
           auto: update
 server:
   port: 8084
+
+eureka:
+  client:
+    register-with-eureka: true
+    fetch-registry: true
+
+  instance:
+    prefer-ip-address: true

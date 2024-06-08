@@ -16,3 +16,11 @@ jaws-server:
   server-url: server-url/images/
 server:
   port: 8081
+
+eureka:
+  client:
+    register-with-eureka: true
+    fetch-registry: true
+
+  instance:
+    prefer-ip-address: true

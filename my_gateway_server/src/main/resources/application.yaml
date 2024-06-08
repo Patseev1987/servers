@@ -3,9 +3,10 @@ server:
   port: 8080
 
 
+
 spring:
   application:
-    name: my-gateway
+    name: my-gateway-server
   cloud:
     gateway:
       routes:
@@ -21,3 +22,12 @@ spring:
           uri: http://localhost:8081/
           predicates:
             - Path=/jaws/**
+
+
+eureka:
+  client:
+    register-with-eureka: true
+    fetch-registry: true
+
+  instance:
+    prefer-ip-address: true
