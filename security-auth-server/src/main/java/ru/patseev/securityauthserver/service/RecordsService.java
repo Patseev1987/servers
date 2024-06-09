@@ -12,7 +12,7 @@ import java.util.List;
 @Service
 @RequiredArgsConstructor
 public class RecordsService {
-    private final RestTemplateBalancedClient rest;
+    private final RestTemplateWorkerClient rest;
 
     public List<Worker> getWorkers(){
         return rest.getWorkers();
@@ -26,7 +26,15 @@ public class RecordsService {
     public Worker getStorageWorkerByDepartment(Department department){
         return rest.getStorageWorker(department);
     }
-
+    public List<Worker> getWorkersByDepartment(Department department){
+        return rest.getWorkersByDepartment(department);
+    }
+    public Worker getWorkerById(Long id){
+        return rest.getWorkerById(id);
+    }
+    public Worker addWorker(Worker worker){
+        return rest.addWorker(worker);
+    }
 
 
 }

@@ -29,11 +29,6 @@ public class WorkerService {
     public Worker create(Worker worker) {
         var newWorker =  workerRepository.save(worker);
        var www = api.getApiTransactions().addWorker(mapper.toWorkerDTO(worker));
-        try {
-            System.out.println("workerDTO -> " + www.execute().body());
-        } catch (IOException e) {
-            throw new RuntimeException(e);
-        }
         return newWorker;
     }
 

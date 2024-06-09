@@ -1,9 +1,7 @@
 package ru.patseev.securityauthserver.controller;
 
 import lombok.RequiredArgsConstructor;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.RequestParam;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
 import ru.patseev.securityauthserver.dto.StorageRecord;
 import ru.patseev.securityauthserver.dto.Tool;
 import ru.patseev.securityauthserver.dto.Worker;
@@ -37,5 +35,22 @@ public class RecordsController {
             @RequestParam(name = "department") Department department
     ) {
         return service.getStorageWorkerByDepartment(department);
+    }
+
+    @GetMapping("/workers_by_department")
+    public List<Worker> getWorkers(
+            @RequestParam(name = "department") Department department
+    ) {
+        return service.getWorkersByDepartment(department);
+    }
+
+    @GetMapping("/workers/{id}")
+    public Worker getWorkerById(@PathVariable Long id) {
+        return service.getWorkerById(id);
+    }
+
+    @PostMapping("/workers/add")
+    public Worker addWorker(@RequestBody Worker worker) {
+        return service.addWorker(worker);
     }
 }
