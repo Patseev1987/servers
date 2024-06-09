@@ -5,6 +5,7 @@ import org.springframework.stereotype.Service;
 import ru.patseev.securityauthserver.dto.StorageRecord;
 import ru.patseev.securityauthserver.dto.Tool;
 import ru.patseev.securityauthserver.dto.Worker;
+import ru.patseev.securityauthserver.dto.enums.Department;
 
 import java.util.List;
 
@@ -22,7 +23,9 @@ public class RecordsService {
     public List<StorageRecord> getRecords(){
         return rest.getStorageRecords();
     }
-
+    public Worker getStorageWorkerByDepartment(Department department){
+        return rest.getStorageWorker(department);
+    }
 
 
 

@@ -10,6 +10,7 @@ import org.springframework.web.client.RestTemplate;
 import ru.patseev.securityauthserver.dto.StorageRecord;
 import ru.patseev.securityauthserver.dto.Tool;
 import ru.patseev.securityauthserver.dto.Worker;
+import ru.patseev.securityauthserver.dto.enums.Department;
 
 
 import java.util.List;
@@ -46,6 +47,44 @@ public class RestTemplateBalancedClient {
                         null, new ParameterizedTypeReference <>(){});
         return Objects.requireNonNull(restExchange.getBody());
     }
+
+    public Worker getStorageWorker(Department department){
+        ResponseEntity<Worker> restExchange =
+                restTemplate.exchange(
+                        "http://my-gateway-server/storage_worker_by_department?department={department}",
+                        HttpMethod.GET,
+                        null, Worker.class);
+        return restExchange.getBody();
+    }
+
+
+
+//    //get storage worker by department
+//    @GetMapping("/storage_worker_by_department")
+//    public Worker getStorageWorkerByDepartment(@RequestParam(name = "department") Department department){
+//        return workerService.getStorageWorkerByDepartment(department);
+//    }
+//    //get workers by department
+//    @GetMapping("/workers_by_department")
+//    public List<Worker> getWorkersByDepartment(@RequestParam(name = "department") Department department){
+//        return workerService.getWorkersByDepartment(department);
+//    }
+//    //get worker by id
+//    @GetMapping("/{id}")
+//    public Worker getWorker(@PathVariable Long id) {
+//        return workerService.getWorkerById(id);
+//    }
+//    //create worker
+//    @PostMapping("/add")
+//    public Worker createWorker(@RequestBody Worker worker) {
+//        return workerService.create(worker);
+//    }
+//    //update worker
+//    @PutMapping("/update")
+//    public Worker updateWorker(@RequestBody Worker worker) {
+//        return createWorker(worker);
+//    }
+
 
 
 
