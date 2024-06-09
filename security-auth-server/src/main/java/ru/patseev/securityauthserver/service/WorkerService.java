@@ -6,36 +6,42 @@ import ru.patseev.securityauthserver.dto.StorageRecord;
 import ru.patseev.securityauthserver.dto.Tool;
 import ru.patseev.securityauthserver.dto.Worker;
 import ru.patseev.securityauthserver.dto.enums.Department;
+import ru.patseev.securityauthserver.service.clients.RestTemplateWorkerClient;
 
 import java.util.List;
 
 @Service
 @RequiredArgsConstructor
-public class RecordsService {
+public class WorkerService {
     private final RestTemplateWorkerClient rest;
 
-    public List<Worker> getWorkers(){
+    //get all workers
+    public List<Worker> getWorkers() {
         return rest.getWorkers();
     }
-    public List<Tool> getTools(){
-        return rest.getTools();
-    }
-    public List<StorageRecord> getRecords(){
-        return rest.getStorageRecords();
-    }
-    public Worker getStorageWorkerByDepartment(Department department){
+
+    //get storage worker by department
+    public Worker getStorageWorkerByDepartment(Department department) {
         return rest.getStorageWorker(department);
     }
-    public List<Worker> getWorkersByDepartment(Department department){
+
+    //get workers by department
+    public List<Worker> getWorkersByDepartment(Department department) {
         return rest.getWorkersByDepartment(department);
     }
-    public Worker getWorkerById(Long id){
+
+    //get worker by id
+    public Worker getWorkerById(Long id) {
         return rest.getWorkerById(id);
     }
-    public Worker addWorker(Worker worker){
+
+    //add worker
+    public Worker addWorker(Worker worker) {
         return rest.addWorker(worker);
     }
-    public Worker updateWorker(Worker worker){
+
+    //update worker
+    public Worker updateWorker(Worker worker) {
         return rest.updateWorker(worker);
     }
 

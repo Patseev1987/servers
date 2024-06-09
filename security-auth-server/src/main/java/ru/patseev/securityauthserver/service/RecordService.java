@@ -1,59 +1,58 @@
-package ru.patseev.securityauthserver.controller;
+package ru.patseev.securityauthserver.service;
 
 import lombok.RequiredArgsConstructor;
-import org.springframework.web.bind.annotation.*;
+import org.springframework.core.ParameterizedTypeReference;
+import org.springframework.http.HttpMethod;
+import org.springframework.http.ResponseEntity;
+import org.springframework.stereotype.Service;
 import ru.patseev.securityauthserver.dto.StorageRecord;
 import ru.patseev.securityauthserver.dto.Tool;
 import ru.patseev.securityauthserver.dto.Worker;
 import ru.patseev.securityauthserver.dto.enums.Department;
 import ru.patseev.securityauthserver.dto.enums.ToolType;
-import ru.patseev.securityauthserver.service.RecordService;
-import ru.patseev.securityauthserver.service.WorkerService;
+import ru.patseev.securityauthserver.service.clients.RestTemplateRecordsClient;
+import ru.patseev.securityauthserver.service.clients.RestTemplateWorkerClient;
 
 import java.util.List;
+import java.util.Objects;
 
-@RestController
+@Service
 @RequiredArgsConstructor
-@RequestMapping("/records")
-public class RecordsController {
-    private final RecordService service;
+public class RecordService {
+    private final RestTemplateRecordsClient rest;
 
-
-    @GetMapping
     //get all records
     public List<StorageRecord> getRecords() {
-        return service.getRecords();
+        return rest.getStorageRecords();
     }
-    @GetMapping("/records_by_worker_id_and_tool_code_and_tool_type")
+
     //get records by worker id
     public List<StorageRecord> getRecordsByIdWorker(Long workerId, ToolType toolType, String toolCode) {
-        return service.getRecordsByIdWorker(workerId, toolType, toolCode);
+        return rest.getRecordsByIdWorker(workerId, toolType, toolCode);
     }
-    @GetMapping("/amount")
+
     //get tool amount with worker id and tool code
     public Integer getAmountByWorkerIdAndToolCode(Long workerId, String toolCode) {
-        return service.getAmountByWorkerIdAndToolCode(workerId, toolCode);
+        return rest.getAmountByWorkerIdAndToolCode(workerId, toolCode);
     }
-    @GetMapping("/records_worker_lastname")
+
     //get records by worker lastname and department
     public List<StorageRecord> getRecordsByWorkerLastName(String workerLastName, Department department) {
-        return service.getRecordsByWorkerLastName(workerLastName, department);
+        return rest.getRecordsByWorkerLastName(workerLastName, department);
     }
-    @PostMapping("/add")
+
     //add record
     public StorageRecord addRecord(StorageRecord record) {
-        return service.addRecord(record);
+        return rest.addRecord(record);
     }
-    @GetMapping("/record_by_worker_id_and_tool_code")
+
     //get records by worker id and tool code
     public StorageRecord getRecordByWorkerIdAndToolCode(Long workerId, String toolCode) {
-        return service.getRecordByWorkerIdAndToolCode(workerId, toolCode);
+        return rest.getRecordByWorkerIdAndToolCode(workerId, toolCode);
     }
-    @PutMapping("/update")
+
     //update record
     public StorageRecord updateRecord(StorageRecord record) {
-        return service.updateRecord(record);
+        return rest.updateRecord(record);
     }
-
-
 }

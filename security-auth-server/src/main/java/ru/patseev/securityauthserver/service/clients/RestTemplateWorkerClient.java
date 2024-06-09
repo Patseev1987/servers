@@ -1,4 +1,4 @@
-package ru.patseev.securityauthserver.service;
+package ru.patseev.securityauthserver.service.clients;
 
 import lombok.RequiredArgsConstructor;
 import org.springframework.core.ParameterizedTypeReference;
@@ -24,24 +24,6 @@ public class RestTemplateWorkerClient {
         ResponseEntity<List<Worker>> restExchange =
                 restTemplate.exchange(
                         "http://my-gateway-server/records/workers",
-                        HttpMethod.GET,
-                        null, new ParameterizedTypeReference <>(){});
-        return Objects.requireNonNull(restExchange.getBody());
-    }
-
-    public List<Tool> getTools (){
-        ResponseEntity<List<Tool>> restExchange =
-                restTemplate.exchange(
-                        "http://my-gateway-server/records/tools",
-                        HttpMethod.GET,
-                        null, new ParameterizedTypeReference <>(){});
-        return Objects.requireNonNull(restExchange.getBody());
-    }
-
-    public List<StorageRecord> getStorageRecords(){
-        ResponseEntity<List<StorageRecord>> restExchange =
-                restTemplate.exchange(
-                        "http://my-gateway-server/records",
                         HttpMethod.GET,
                         null, new ParameterizedTypeReference <>(){});
         return Objects.requireNonNull(restExchange.getBody());
@@ -85,11 +67,9 @@ public class RestTemplateWorkerClient {
     public Worker updateWorker(Worker worker){
         ResponseEntity<Worker> result = restTemplate.exchange(
                 "http://my-gateway-server/records/workers/update",
-                HttpMethod.POST,
+                HttpMethod.PUT,
                 null, Worker.class,worker
         );
         return result.getBody();
     }
-
-
 }
