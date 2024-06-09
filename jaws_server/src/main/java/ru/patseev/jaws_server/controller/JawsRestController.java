@@ -5,7 +5,7 @@ import org.springframework.web.bind.annotation.*;
 import ru.patseev.jaws_server.domain.Jaw;
 import ru.patseev.jaws_server.domain.PhotoJaws;
 import ru.patseev.jaws_server.dto.JawDTO;
-import ru.patseev.jaws_server.dto.Mapper;
+import ru.patseev.jaws_server.utils.Mapper;
 import ru.patseev.jaws_server.services.JawService;
 import ru.patseev.jaws_server.services.PhotoJawsService;
 

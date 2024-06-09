@@ -1,18 +1,19 @@
-package ru.patseev.securityauthserver.domain;
+package ru.patseev.securityauthserver.dto;
 
 
-import jakarta.persistence.*;
+import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Data;
 import lombok.NoArgsConstructor;
-import ru.patseev.securityauthserver.domain.enums.ToolType;
+import ru.patseev.securityauthserver.dto.enums.ToolType;
 
 
 @NoArgsConstructor
 @Builder
 @Data
 @AllArgsConstructor
+@JsonIgnoreProperties(ignoreUnknown = true)
 public class Tool {
 
     private String code;

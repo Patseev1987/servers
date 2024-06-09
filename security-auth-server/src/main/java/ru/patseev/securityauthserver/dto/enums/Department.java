@@ -1,4 +1,4 @@
-package ru.patseev.securityauthserver.domain.enums;
+package ru.patseev.securityauthserver.dto.enums;
 
 public enum Department {
     DEPARTMENT_19,

@@ -1,33 +1,53 @@
-
 server:
   port: 8080
-
-
 
 spring:
   application:
     name: my-gateway-server
   cloud:
     gateway:
+      #      routes:
+      #        - id: transactions-server
+      #          uri: http://localhost:8084/
+      #          predicates:
+      #            - Path=/transactions/**
+      #        - id: records-server
+      #          uri: http://localhost:8085/
+      #          predicates:
+      #            - Path=/records/**
+      #        - id: jaws-server
+      #          uri: http://localhost:8081/
+      #          predicates:
+      #            - Path=/jaws/**
+
+      # we can set gateway with server names
       routes:
-        - id: my-microservice-transactions
-          uri: http://localhost:8084/
-          predicates:
-            - Path=/transactions/**
-        - id: my-microservice-storage-records
-          uri: http://localhost:8085/
+        - id: records-server
+          uri: lb://records-server
           predicates:
             - Path=/records/**
-        - id: my-microservice-jaws
-          uri: http://localhost:8081/
+        - id: jaws-server
+          uri: lb://jaws-server
           predicates:
             - Path=/jaws/**
-
+        - id: transactions-server
+          uri: lb://transactions-server
+          predicates:
+            - Path=/transactions/**
 
 eureka:
   client:
     register-with-eureka: true
     fetch-registry: true
+    service-url:
+      defaultZone: http://localhost:8761/eureka
+
 
   instance:
     prefer-ip-address: true
+
+management:
+  endpoints:
+    web:
+      exposure:
+        include: metrics, health, info

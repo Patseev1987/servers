@@ -1,7 +1,8 @@
-package ru.patseev.jaws_server.dto;
+package ru.patseev.jaws_server.utils;
 
 
 import ru.patseev.jaws_server.domain.Jaw;
+import ru.patseev.jaws_server.dto.JawDTO;
 
 public class Mapper {
     public static JawDTO JawToJawDTO(Jaw jaw) {

@@ -1,15 +1,14 @@
-package ru.patseev.securityauthserver.domain;
+package ru.patseev.securityauthserver.dto;
 
 import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 import com.fasterxml.jackson.databind.annotation.JsonDeserialize;
 import com.fasterxml.jackson.databind.annotation.JsonSerialize;
-import jakarta.persistence.*;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Data;
 import lombok.NoArgsConstructor;
-import ru.patseev.securityauthserver.domain.enums.Department;
-import ru.patseev.securityauthserver.domain.enums.WorkerType;
+import ru.patseev.securityauthserver.dto.enums.Department;
+import ru.patseev.securityauthserver.dto.enums.WorkerType;
 import ru.patseev.securityauthserver.service.utils.LocalDateDeserializer;
 import ru.patseev.securityauthserver.service.utils.LocalDateSerializer;
 
