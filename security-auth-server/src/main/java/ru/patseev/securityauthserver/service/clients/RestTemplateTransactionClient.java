@@ -5,8 +5,13 @@ import org.springframework.core.ParameterizedTypeReference;
 import org.springframework.http.HttpMethod;
 import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Component;
+import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.RequestBody;
+import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.client.RestTemplate;
 import ru.patseev.securityauthserver.dto.StorageRecord;
+import ru.patseev.securityauthserver.dto.Transaction;
 import ru.patseev.securityauthserver.dto.enums.Department;
 import ru.patseev.securityauthserver.dto.enums.ToolType;
 
@@ -18,82 +23,49 @@ import java.util.Objects;
 public class RestTemplateTransactionClient {
     private final RestTemplate restTemplate;
 
-
-    public List<StorageRecord> getStorageRecords() {
-        ResponseEntity<List<StorageRecord>> restExchange =
+    //get all transactions
+    public List<Transaction> getStorageTransactions() {
+        ResponseEntity<List<Transaction>> restExchange =
                 restTemplate.exchange(
-                        "http://my-gateway-server/records",
+                        "http://my-gateway-server/transactions/transactions",
                         HttpMethod.GET,
                         null, new ParameterizedTypeReference<>() {
                         });
-        return Objects.requireNonNull(restExchange.getBody());
+        return restExchange.getBody();
     }
 
-    public List<StorageRecord> getRecordsByIdWorker(Long workerId, ToolType toolType, String toolCode) {
-        ResponseEntity<List<StorageRecord>> restExchange =
+    //create transaction
+    public Transaction createTransaction(Transaction transaction) {
+        ResponseEntity<Transaction> restExchange =
                 restTemplate.exchange(
-                        "http://my-gateway-server/records/workersId" +
-                                "?workerId={workerId}&toolType={toolType}&toolCode={toolCode}",
+                        "http://my-gateway-server/transactions/transactions/create",
+                        HttpMethod.POST,
+                        null, new ParameterizedTypeReference<>() {
+                        }, transaction);
+        return restExchange.getBody();
+    }
+
+    //get transactions by worker id
+    public List<Transaction> getTransactionsByWorkerId(Long workerId) {
+        ResponseEntity<List<Transaction>> restExchange =
+                restTemplate.exchange(
+                        "http://my-gateway-server/transactions/transactions/worker?workerId={workerId}",
                         HttpMethod.GET,
                         null, new ParameterizedTypeReference<>() {
-                        },
-                        workerId,
-                        toolType,
-                        toolCode);
+                        }, workerId);
         return restExchange.getBody();
     }
 
-    public Integer getAmountByWorkerIdAndToolCode(Long workerId, String toolCode) {
-        ResponseEntity<Integer> restExchange =
+    //get transaction with another departments
+    public List<Transaction> getTransactionsWitheAnotherDepartment(Department anotherDepartment, String toolCode) {
+        ResponseEntity<List<Transaction>> restExchange =
                 restTemplate.exchange(
-                        "http://my-gateway-server/records/amount?workerId={workerId}&toolCode={toolCode}",
-                        HttpMethod.GET,
-                        null, Integer.class, workerId, toolCode);
-        return restExchange.getBody();
-    }
-
-    public List<StorageRecord> getRecordsByWorkerLastName(String workerLastName, Department department) {
-        ResponseEntity<List<StorageRecord>> restExchange =
-                restTemplate.exchange(
-                        "http://my-gateway-server/records/worker_lastname" +
-                                "?workerLastName={workerLastName}&department={department}",
+                        "http://my-gateway-server/transactions/transactions/worker" +
+                                "?anotherDepartment={anotherDepartment}&toolCode={toolCode}",
                         HttpMethod.GET,
                         null, new ParameterizedTypeReference<>() {
-                        }, workerLastName, department);
+                        }, anotherDepartment, toolCode);
         return restExchange.getBody();
-    }
-
-    public StorageRecord addRecord(StorageRecord record) {
-        ResponseEntity<StorageRecord> result = restTemplate.exchange(
-                "http://my-gateway-server/records/add",
-                HttpMethod.POST,
-                null,
-                StorageRecord.class, record
-        );
-        return result.getBody();
-    }
-
-    public StorageRecord getRecordByWorkerIdAndToolCode(Long workerId, String toolCode) {
-        ResponseEntity<StorageRecord> result = restTemplate.exchange(
-                "http://my-gateway-server/records/record_by_worker_id_an_tool_code" +
-                        "?workerId={workerId}&toolCode={toolCode}",
-                HttpMethod.GET,
-                null,
-                StorageRecord.class,
-                workerId,
-                toolCode
-        );
-        return result.getBody();
-    }
-
-    public StorageRecord updateRecord(StorageRecord record) {
-        ResponseEntity<StorageRecord> result = restTemplate.exchange(
-                "http://my-gateway-server/records/update",
-                HttpMethod.PUT,
-                null,
-                StorageRecord.class, record
-        );
-        return result.getBody();
     }
 
 }

@@ -26,32 +26,41 @@ public class RecordsController {
     }
     @GetMapping("/records_by_worker_id_and_tool_code_and_tool_type")
     //get records by worker id
-    public List<StorageRecord> getRecordsByIdWorker(Long workerId, ToolType toolType, String toolCode) {
+    public List<StorageRecord> getRecordsByIdWorker(
+            @RequestParam Long workerId,
+            @RequestParam ToolType toolType,
+            @RequestParam String toolCode) {
         return service.getRecordsByIdWorker(workerId, toolType, toolCode);
     }
     @GetMapping("/amount")
     //get tool amount with worker id and tool code
-    public Integer getAmountByWorkerIdAndToolCode(Long workerId, String toolCode) {
+    public Integer getAmountByWorkerIdAndToolCode(
+            @RequestParam Long workerId,
+            @RequestParam String toolCode) {
         return service.getAmountByWorkerIdAndToolCode(workerId, toolCode);
     }
     @GetMapping("/records_worker_lastname")
     //get records by worker lastname and department
-    public List<StorageRecord> getRecordsByWorkerLastName(String workerLastName, Department department) {
+    public List<StorageRecord> getRecordsByWorkerLastName(
+            @RequestParam String workerLastName,
+            @RequestParam Department department) {
         return service.getRecordsByWorkerLastName(workerLastName, department);
     }
     @PostMapping("/add")
     //add record
-    public StorageRecord addRecord(StorageRecord record) {
+    public StorageRecord addRecord(@RequestBody StorageRecord record) {
         return service.addRecord(record);
     }
     @GetMapping("/record_by_worker_id_and_tool_code")
     //get records by worker id and tool code
-    public StorageRecord getRecordByWorkerIdAndToolCode(Long workerId, String toolCode) {
+    public StorageRecord getRecordByWorkerIdAndToolCode(
+           @RequestParam Long workerId,
+           @RequestParam String toolCode) {
         return service.getRecordByWorkerIdAndToolCode(workerId, toolCode);
     }
     @PutMapping("/update")
     //update record
-    public StorageRecord updateRecord(StorageRecord record) {
+    public StorageRecord updateRecord(@RequestBody StorageRecord record) {
         return service.updateRecord(record);
     }
 

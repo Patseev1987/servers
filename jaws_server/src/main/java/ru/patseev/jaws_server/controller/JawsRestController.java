@@ -22,7 +22,6 @@ public class JawsRestController {
     //get all jaws with photo links
     @GetMapping
     public List<JawDTO> getAllJaws() {
-
         return jawService.findAll().stream()
                 .map(Mapper::JawToJawDTO)
                 .map(it -> {
@@ -36,7 +35,6 @@ public class JawsRestController {
                 })
                 .toList();
     }
-
     //add jaw to database
     @PostMapping("/add")
     public Jaw createJaw(@RequestBody Jaw jaw) {

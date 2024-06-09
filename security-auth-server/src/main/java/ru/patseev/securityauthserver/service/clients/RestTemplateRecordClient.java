@@ -5,11 +5,8 @@ import org.springframework.core.ParameterizedTypeReference;
 import org.springframework.http.HttpMethod;
 import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Component;
-import org.springframework.web.bind.annotation.*;
 import org.springframework.web.client.RestTemplate;
 import ru.patseev.securityauthserver.dto.StorageRecord;
-import ru.patseev.securityauthserver.dto.Tool;
-import ru.patseev.securityauthserver.dto.Worker;
 import ru.patseev.securityauthserver.dto.enums.Department;
 import ru.patseev.securityauthserver.dto.enums.ToolType;
 
@@ -18,7 +15,7 @@ import java.util.Objects;
 
 @Component
 @RequiredArgsConstructor
-public class RestTemplateRecordsClient {
+public class RestTemplateRecordClient {
     private final RestTemplate restTemplate;
 
 
