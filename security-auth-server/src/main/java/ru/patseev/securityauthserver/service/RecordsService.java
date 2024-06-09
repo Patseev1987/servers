@@ -35,6 +35,8 @@ public class RecordsService {
     public Worker addWorker(Worker worker){
         return rest.addWorker(worker);
     }
-
+    public Worker updateWorker(Worker worker){
+        return rest.updateWorker(worker);
+    }
 
 }

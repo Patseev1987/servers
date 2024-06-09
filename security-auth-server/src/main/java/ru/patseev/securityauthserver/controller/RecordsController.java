@@ -53,4 +53,9 @@ public class RecordsController {
     public Worker addWorker(@RequestBody Worker worker) {
         return service.addWorker(worker);
     }
+
+    @PutMapping("/workers/update")
+    public Worker wupdateWorker(@RequestBody Worker worker) {
+        return service.addWorker(worker);
+    }
 }
