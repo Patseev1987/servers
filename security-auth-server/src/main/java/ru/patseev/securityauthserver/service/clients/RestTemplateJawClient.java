@@ -3,6 +3,7 @@ package ru.patseev.securityauthserver.service.clients;
 import lombok.RequiredArgsConstructor;
 import org.springframework.core.ParameterizedTypeReference;
 import org.springframework.core.io.FileSystemResource;
+import org.springframework.core.io.Resource;
 import org.springframework.http.*;
 import org.springframework.stereotype.Component;
 import org.springframework.util.LinkedMultiValueMap;
@@ -58,16 +59,16 @@ public class RestTemplateJawClient {
     //upload photo to server
     public void addPhoto(MultipartFile multipartFile, Long jawId) {
 
+        Resource file = multipartFile.getResource();
         LinkedMultiValueMap<String, Object> map = new LinkedMultiValueMap<>();
-        map.add("file", multipartFile);
+        map.add("file", file);
         HttpHeaders headers = new HttpHeaders();
         headers.setContentType(MediaType.MULTIPART_FORM_DATA);
 
         HttpEntity<LinkedMultiValueMap<String, Object>> requestEntity = new HttpEntity<>(
                 map, headers);
-        restTemplate.exchange(
+        restTemplate.postForEntity(
                 "http://my-gateway-server/jaws/photo/upload/{jawId}",
-                HttpMethod.POST,
                 requestEntity,
                 Void.class,
                 jawId);
