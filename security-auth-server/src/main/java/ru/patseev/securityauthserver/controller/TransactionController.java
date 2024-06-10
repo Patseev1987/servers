@@ -28,15 +28,15 @@ public class TransactionController {
 
     @GetMapping("/transactions_by_worker_id")
     //get transactions by worker id
-    public List<Transaction> getTransactionsByWorkerId(@RequestParam Long workerId) {
+    public List<Transaction> getTransactionsByWorkerId(@RequestParam(name = "workerId") Long workerId) {
         return transactionService.getTransactionsByWorkerId(workerId);
     }
 
     @GetMapping("/transactions_with_another_department")
     //get transaction with another departments
     public List<Transaction> getTransactionsWitheAnotherDepartment(
-           @RequestParam Department anotherDepartment,
-           @RequestParam String toolCode) {
+           @RequestParam(name = "anotherDepartment") Department anotherDepartment,
+           @RequestParam(name = "toolCode") String toolCode) {
         return transactionService.getTransactionsWitheAnotherDepartment(anotherDepartment, toolCode);
     }
 }

@@ -11,6 +11,7 @@ import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.client.RestTemplate;
 import ru.patseev.securityauthserver.dto.StorageRecord;
+import ru.patseev.securityauthserver.dto.Tool;
 import ru.patseev.securityauthserver.dto.Transaction;
 import ru.patseev.securityauthserver.dto.enums.Department;
 import ru.patseev.securityauthserver.dto.enums.ToolType;
@@ -36,13 +37,11 @@ public class RestTemplateTransactionClient {
 
     //create transaction
     public Transaction createTransaction(Transaction transaction) {
-        ResponseEntity<Transaction> restExchange =
-                restTemplate.exchange(
-                        "http://my-gateway-server/transactions/transactions/create",
-                        HttpMethod.POST,
-                        null, new ParameterizedTypeReference<>() {
-                        }, transaction);
-        return restExchange.getBody();
+        return restTemplate.postForObject(
+                "http://my-gateway-server/transactions/transactions/create",
+                transaction,
+                Transaction.class
+        );
     }
 
     //get transactions by worker id

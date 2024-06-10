@@ -104,8 +104,8 @@ public class TransactionService {
         }
     }
 
-    public List<Transaction> getTransactionsBySurnameSenderAndReceiver(Long workerId) {
-        return transactionsRepository.findTransactionsBySurnameSenderAndReceiver(workerId);
+    public List<Transaction> findTransactionsBySenderIdAndReceiverId(Long workerId) {
+        return transactionsRepository.findTransactionsBySenderIdAndReceiverId(workerId);
     }
 
     public List<Transaction> getTransactionsBySenderDepartmentAndReceiverDepartment(Department senderDepartment,

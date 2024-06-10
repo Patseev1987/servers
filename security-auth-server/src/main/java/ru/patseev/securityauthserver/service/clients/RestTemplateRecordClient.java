@@ -5,12 +5,17 @@ import org.springframework.core.ParameterizedTypeReference;
 import org.springframework.http.HttpMethod;
 import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Component;
+import org.springframework.web.client.RequestCallback;
+import org.springframework.web.client.ResponseExtractor;
 import org.springframework.web.client.RestTemplate;
 import ru.patseev.securityauthserver.dto.StorageRecord;
+import ru.patseev.securityauthserver.dto.Tool;
 import ru.patseev.securityauthserver.dto.enums.Department;
 import ru.patseev.securityauthserver.dto.enums.ToolType;
 
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 import java.util.Objects;
 
 @Component
@@ -30,16 +35,18 @@ public class RestTemplateRecordClient {
     }
 
     public List<StorageRecord> getRecordsByIdWorker(Long workerId, ToolType toolType, String toolCode) {
+        Map<String, Object> values = new HashMap<>();
+        values.put("workerId", workerId);
+        values.put("toolType", toolType);
+        values.put("toolCode", toolCode);
+
         ResponseEntity<List<StorageRecord>> restExchange =
                 restTemplate.exchange(
-                        "http://my-gateway-server/records/workersId" +
+                        "http://my-gateway-server/records/workerId" +
                                 "?workerId={workerId}&toolType={toolType}&toolCode={toolCode}",
                         HttpMethod.GET,
                         null, new ParameterizedTypeReference<>() {
-                        },
-                        workerId,
-                        toolType,
-                        toolCode);
+                        }, workerId, toolType, toolCode);
         return restExchange.getBody();
     }
 
@@ -64,13 +71,12 @@ public class RestTemplateRecordClient {
     }
 
     public StorageRecord addRecord(StorageRecord record) {
-        ResponseEntity<StorageRecord> result = restTemplate.exchange(
+        StorageRecord result = restTemplate.postForObject(
                 "http://my-gateway-server/records/add",
-                HttpMethod.POST,
-                null,
-                StorageRecord.class, record
+                record,
+                StorageRecord.class
         );
-        return result.getBody();
+        return result;
     }
 
     public StorageRecord getRecordByWorkerIdAndToolCode(Long workerId, String toolCode) {
@@ -87,13 +93,14 @@ public class RestTemplateRecordClient {
     }
 
     public StorageRecord updateRecord(StorageRecord record) {
-        ResponseEntity<StorageRecord> result = restTemplate.exchange(
+        RequestCallback callback = restTemplate.httpEntityCallback(record, StorageRecord.class);
+        ResponseExtractor<ResponseEntity<StorageRecord>> extractor = restTemplate.responseEntityExtractor(StorageRecord.class);
+        ResponseEntity<StorageRecord> restExchange = restTemplate.execute(
                 "http://my-gateway-server/records/update",
                 HttpMethod.PUT,
-                null,
-                StorageRecord.class, record
-        );
-        return result.getBody();
+                callback,
+                extractor);
+        return Objects.requireNonNull(restExchange).getBody();
     }
 
 }

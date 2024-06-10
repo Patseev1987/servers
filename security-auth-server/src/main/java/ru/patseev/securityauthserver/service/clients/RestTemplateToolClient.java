@@ -7,6 +7,7 @@ import org.springframework.http.*;
 import org.springframework.http.client.ClientHttpRequest;
 import org.springframework.stereotype.Component;
 import org.springframework.web.client.RequestCallback;
+import org.springframework.web.client.ResponseExtractor;
 import org.springframework.web.client.RestTemplate;
 import ru.patseev.securityauthserver.dto.Tool;
 import ru.patseev.securityauthserver.dto.Worker;
@@ -20,34 +21,36 @@ import java.util.Objects;
 public class RestTemplateToolClient {
     private final RestTemplate restTemplate;
 
-    public List<Tool> getTools (){
+    public List<Tool> getTools() {
         ResponseEntity<List<Tool>> restExchange =
                 restTemplate.exchange(
                         "http://my-gateway-server/records/tools",
                         HttpMethod.GET,
-                        null, new ParameterizedTypeReference <>(){});
+                        null, new ParameterizedTypeReference<>() {
+                        });
         return Objects.requireNonNull(restExchange.getBody());
     }
 
-    public List<Tool> getToolsWithCode(String code){
+    public List<Tool> getToolsWithCode(String code) {
         ResponseEntity<List<Tool>> restExchange =
                 restTemplate.exchange(
                         "http://my-gateway-server/records/tools/code?code={code}",
                         HttpMethod.GET,
-                        null, new ParameterizedTypeReference <>(){},code);
+                        null, new ParameterizedTypeReference<>() {
+                        }, code);
         return Objects.requireNonNull(restExchange.getBody());
     }
 
-    public Tool getToolByCode(String code){
+    public Tool getToolByCode(String code) {
         ResponseEntity<Tool> restExchange =
                 restTemplate.exchange(
                         "http://my-gateway-server/records/tools/{code}",
                         HttpMethod.GET,
-                        null, Tool.class,code);
+                        null, Tool.class, code);
         return restExchange.getBody();
     }
 
-    public Tool addTool(Tool tool){
+    public Tool addTool(Tool tool) {
         return restTemplate.postForObject(
                 "http://my-gateway-server/records/tools/add",
                 tool,
@@ -55,20 +58,14 @@ public class RestTemplateToolClient {
         );
     }
 
-    public Tool updateTool(Tool tool){
-
-
-        }
-
-
-
-
-        HttpEntity<Tool> entity = new HttpEntity<>(tool);
-        ResponseEntity<Void> restExchange = restTemplate.exchange(
+    public Tool updateTool(Tool tool) {
+        RequestCallback callback = restTemplate.httpEntityCallback(tool, Tool.class);
+        ResponseExtractor<ResponseEntity<Tool>> extractor = restTemplate.responseEntityExtractor(Tool.class);
+        ResponseEntity<Tool> restExchange = restTemplate.execute(
                 "http://my-gateway-server/records/tools/update",
-                 HttpMethod.PUT,
-                 entity,Void.class
-        );
-        return restExchange.getBody();
+                HttpMethod.PUT,
+                callback,
+                extractor);
+        return Objects.requireNonNull(restExchange).getBody();
     }
 }

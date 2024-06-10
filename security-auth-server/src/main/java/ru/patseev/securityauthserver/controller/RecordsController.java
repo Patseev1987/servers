@@ -27,9 +27,10 @@ public class RecordsController {
     @GetMapping("/records_by_worker_id_and_tool_code_and_tool_type")
     //get records by worker id
     public List<StorageRecord> getRecordsByIdWorker(
-            @RequestParam Long workerId,
-            @RequestParam ToolType toolType,
-            @RequestParam String toolCode) {
+            @RequestParam(name = "workerId") Long workerId,
+            @RequestParam(name = "toolType") ToolType toolType,
+            @RequestParam (name = "toolCode") String toolCode
+    ) {
         return service.getRecordsByIdWorker(workerId, toolType, toolCode);
     }
     @GetMapping("/amount")

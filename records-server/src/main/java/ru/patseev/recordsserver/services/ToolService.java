@@ -42,11 +42,6 @@ public class ToolService {
     public Tool addTool(Tool tool) {
         var newTool = toolRepository.save(tool);
       var sss =  api.getApiTransactions().addTool(mapper.toToolDTO(tool));
-        try {
-            System.out.println("toolDTO -> " + sss.execute().body());
-        } catch (IOException e) {
-            throw new RuntimeException(e);
-        }
         return newTool;
     }
 

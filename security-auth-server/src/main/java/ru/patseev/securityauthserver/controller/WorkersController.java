@@ -12,10 +12,11 @@ import java.util.List;
 
 @RestController
 @RequiredArgsConstructor
+@RequestMapping("/workers")
 public class WorkersController {
     private final WorkerService service;
 
-    @GetMapping("/workers")
+    @GetMapping
     public List<Worker> getWorkers() {
         return service.getWorkers();
     }
