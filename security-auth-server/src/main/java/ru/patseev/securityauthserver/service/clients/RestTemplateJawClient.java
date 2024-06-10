@@ -69,7 +69,8 @@ public class RestTemplateJawClient {
                 "http://my-gateway-server/jaws/photo/upload/{jawId}",
                 HttpMethod.POST,
                 requestEntity,
-                Void.class);
+                Void.class,
+                jawId);
 
     }
 
