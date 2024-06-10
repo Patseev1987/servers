@@ -75,7 +75,6 @@ public class RestTemplateJawClient {
 
     }
 
-
     //delete photo by file name
     public void deletePhoto(String fileName) {
         ResponseEntity<Void> restExchange =
