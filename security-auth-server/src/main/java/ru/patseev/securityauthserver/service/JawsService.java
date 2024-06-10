@@ -1,9 +1,6 @@
 package ru.patseev.securityauthserver.service;
 
 import lombok.RequiredArgsConstructor;
-import org.springframework.core.ParameterizedTypeReference;
-import org.springframework.http.HttpMethod;
-import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Service;
 import org.springframework.web.multipart.MultipartFile;
 import ru.patseev.securityauthserver.dto.Jaw;
@@ -18,8 +15,8 @@ public class JawsService {
     private final RestTemplateJawClient rest;
 
     //get all jaws
-    public List<JawDTO> getStorageRecords() {
-        return rest.getStorageRecords();
+    public List<JawDTO> getJaws() {
+        return rest.getJaws();
     }
 
     //add jaw
@@ -43,7 +40,7 @@ public class JawsService {
     }
 
     //delete photo by file name
-    public void deleteJaw(String fileName) {
-        rest.deleteJaw(fileName);
+    public void deletePhoto(String fileName) {
+        rest.deletePhoto(fileName);
     }
 }

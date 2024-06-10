@@ -17,8 +17,8 @@ public class JawController {
 
     @GetMapping
     //get all jaws
-    public List<JawDTO> getStorageRecords() {
-        return jawService.getStorageRecords();
+    public List<JawDTO> getJaws() {
+        return jawService.getJaws();
     }
 
     @PostMapping("/add")
@@ -47,7 +47,7 @@ public class JawController {
 
     @DeleteMapping("photo/delete")
     //delete photo by file name
-    public void deleteJaw(@RequestParam String fileName) {
-        jawService.deleteJaw(fileName);
+    public void deletePhoto(@RequestParam String fileName) {
+        jawService.deletePhoto(fileName);
     }
 }
