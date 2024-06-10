@@ -7,6 +7,7 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Component;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.client.RestTemplate;
+import org.springframework.web.multipart.MultipartFile;
 import ru.patseev.securityauthserver.dto.Jaw;
 import ru.patseev.securityauthserver.dto.JawDTO;
 import ru.patseev.securityauthserver.dto.StorageRecord;
@@ -25,7 +26,7 @@ public class RestTemplateJawClient {
     public List<JawDTO> getStorageRecords() {
         ResponseEntity<List<JawDTO>> restExchange =
                 restTemplate.exchange(
-                        "http://upload-jaws-server/jaws",
+                        "http://jaws-server/jaws",
                         HttpMethod.GET,
                         null, new ParameterizedTypeReference<>() {
                         });
@@ -36,7 +37,7 @@ public class RestTemplateJawClient {
     public Jaw addJaw(Jaw jaw) {
         ResponseEntity<Jaw> restExchange =
                 restTemplate.exchange(
-                        "http://upload-jaws-server/jaws/add",
+                        "http://my-gateway-server/jaws/add",
                         HttpMethod.POST,
                         null, Jaw.class, jaw);
         return restExchange.getBody();
@@ -46,7 +47,7 @@ public class RestTemplateJawClient {
     public Jaw updateJaw(Jaw jaw) {
         ResponseEntity<Jaw> restExchange =
                 restTemplate.exchange(
-                        "http://upload-jaws-server/jaws/update",
+                        "http://my-gateway-server/jaws/update",
                         HttpMethod.PUT,
                         null, Jaw.class, jaw);
         return restExchange.getBody();
@@ -56,8 +57,26 @@ public class RestTemplateJawClient {
     public void deleteJaw(Long jawId) {
         ResponseEntity<Void> restExchange =
                 restTemplate.exchange(
-                        "http://upload-jaws-server/jaws/delete/{jawId}",
+                        "http://my-gateway-server/jaws/delete/{jawId}",
                         HttpMethod.DELETE,
                         null, Void.class, jawId);
+    }
+
+    //upload photo to server
+    public void addPhoto(MultipartFile multipartFile, Long jawId) {
+        ResponseEntity<Void> restExchange =
+                restTemplate.exchange(
+                        "http://my-gateway-server/jaws/photo/upload/{jawId}",
+                        HttpMethod.POST,
+                        null, Void.class,multipartFile, jawId);
+    }
+
+    //delete photo by file name
+    public void deleteJaw(String fileName) {
+        ResponseEntity<Void> restExchange =
+                restTemplate.exchange(
+                        "http://my-gateway-server/jaws/delete/photo?filename={fileName}",
+                        HttpMethod.DELETE,
+                        null, Void.class, fileName);
     }
 }

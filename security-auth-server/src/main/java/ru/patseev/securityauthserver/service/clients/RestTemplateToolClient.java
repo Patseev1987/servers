@@ -1,14 +1,17 @@
 package ru.patseev.securityauthserver.service.clients;
 
+import com.fasterxml.jackson.databind.ObjectMapper;
 import lombok.RequiredArgsConstructor;
 import org.springframework.core.ParameterizedTypeReference;
-import org.springframework.http.HttpMethod;
-import org.springframework.http.ResponseEntity;
+import org.springframework.http.*;
+import org.springframework.http.client.ClientHttpRequest;
 import org.springframework.stereotype.Component;
+import org.springframework.web.client.RequestCallback;
 import org.springframework.web.client.RestTemplate;
 import ru.patseev.securityauthserver.dto.Tool;
 import ru.patseev.securityauthserver.dto.Worker;
 
+import java.io.IOException;
 import java.util.List;
 import java.util.Objects;
 
@@ -45,20 +48,27 @@ public class RestTemplateToolClient {
     }
 
     public Tool addTool(Tool tool){
-        ResponseEntity<Tool> result = restTemplate.exchange(
+        return restTemplate.postForObject(
                 "http://my-gateway-server/records/tools/add",
-                HttpMethod.POST,
-                null, Tool.class,tool
+                tool,
+                Tool.class
         );
-        return result.getBody();
     }
 
     public Tool updateTool(Tool tool){
-        ResponseEntity<Tool> result = restTemplate.exchange(
+
+
+        }
+
+
+
+
+        HttpEntity<Tool> entity = new HttpEntity<>(tool);
+        ResponseEntity<Void> restExchange = restTemplate.exchange(
                 "http://my-gateway-server/records/tools/update",
-                HttpMethod.PUT,
-                null, Tool.class,tool
+                 HttpMethod.PUT,
+                 entity,Void.class
         );
-        return result.getBody();
+        return restExchange.getBody();
     }
 }

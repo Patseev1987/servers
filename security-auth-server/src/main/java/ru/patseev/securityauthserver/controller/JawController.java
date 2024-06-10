@@ -2,6 +2,7 @@ package ru.patseev.securityauthserver.controller;
 
 import lombok.RequiredArgsConstructor;
 import org.springframework.web.bind.annotation.*;
+import org.springframework.web.multipart.MultipartFile;
 import ru.patseev.securityauthserver.dto.Jaw;
 import ru.patseev.securityauthserver.dto.JawDTO;
 import ru.patseev.securityauthserver.service.JawsService;
@@ -36,5 +37,17 @@ public class JawController {
     //delete jaw by id
     public void deleteJaw(@PathVariable Long jawId) {
         jawService.deleteJaw(jawId);
+    }
+
+    @PostMapping("/photo/{jawId}")
+    //upload photo to server
+    public void addPhoto(@RequestParam("file") MultipartFile multipartFile, @PathVariable Long jawId) {
+        jawService.addPhoto(multipartFile, jawId);
+    }
+
+    @DeleteMapping("photo/delete")
+    //delete photo by file name
+    public void deleteJaw(@RequestParam String fileName) {
+        jawService.deleteJaw(fileName);
     }
 }

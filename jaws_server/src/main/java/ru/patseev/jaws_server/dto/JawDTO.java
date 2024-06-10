@@ -1,16 +1,14 @@
 package ru.patseev.jaws_server.dto;
 
-import lombok.Builder;
-import lombok.Data;
+import lombok.*;
 import ru.patseev.jaws_server.domain.Place;
 
-
 import java.util.List;
-
 @Data
 @Builder
+@AllArgsConstructor
+@NoArgsConstructor
 public class JawDTO {
-
     private Long id;
 
     private String name;
@@ -21,5 +19,5 @@ public class JawDTO {
 
     private Place place;
 
-    private List<String> photosUrls;
+    public List<PhotoJawsDTO> photos;
 }

@@ -3,7 +3,6 @@ package ru.patseev.jaws_server.controller;
 import lombok.RequiredArgsConstructor;
 import org.springframework.web.bind.annotation.*;
 import ru.patseev.jaws_server.domain.Jaw;
-import ru.patseev.jaws_server.domain.PhotoJaws;
 import ru.patseev.jaws_server.dto.JawDTO;
 import ru.patseev.jaws_server.utils.Mapper;
 import ru.patseev.jaws_server.services.JawService;
@@ -18,23 +17,6 @@ import java.util.List;
 public class JawsRestController {
     private final JawService jawService;
     private final PhotoJawsService photoJawsService;
-
-    //get all jaws with photo links
-    @GetMapping
-    public List<JawDTO> getAllJaws() {
-        return jawService.findAll().stream()
-                .map(Mapper::JawToJawDTO)
-                .map(it -> {
-                    var photoUrls = photoJawsService
-                            .getPhotosByOwnerId(it.getId())
-                            .stream()
-                            .map(PhotoJaws::getUrl)
-                            .toList();
-                    it.setPhotosUrls(photoUrls);
-                    return it;
-                })
-                .toList();
-    }
     //add jaw to database
     @PostMapping("/add")
     public Jaw createJaw(@RequestBody Jaw jaw) {
@@ -50,5 +32,19 @@ public class JawsRestController {
     void deleteJaw(@PathVariable Long id) {
         jawService.delete(id);
     }
-
+    //get all jaws with photo links
+    @GetMapping
+    public List<JawDTO> getAllJaws() {
+        return jawService.findAll().stream()
+                .map(Mapper::JawToJawDTO2)
+                .peek(jaw -> {
+                    var photos = photoJawsService
+                            .getPhotosByOwnerId(jaw.getId())
+                            .stream()
+                            .map(Mapper::toPhotoJawsDTO)
+                            .toList();
+                    jaw.setPhotos(photos);
+                })
+                .toList();
+    }
 }

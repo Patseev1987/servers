@@ -64,6 +64,8 @@ public class FileServiceImpl implements FileService {
         return new StringBuilder()
                 .append(System.getProperty("user.dir"))
                 .append(File.separator)
+                .append("jaws_server")
+                .append(File.separator)
                 .append("src")
                 .append(File.separator)
                 .append("main")
@@ -78,3 +80,8 @@ public class FileServiceImpl implements FileService {
     }
 
 }
+
+
+//C:\MyCode\servers\jaws_server\src\main\resources\images
+//C:\MyCode\servers\src\main\resources\static\images\2024_06_10_10_43_36_cat1.jpg
+//C:\MyCode\servers\jaws_server\src\main\resources\static\images
