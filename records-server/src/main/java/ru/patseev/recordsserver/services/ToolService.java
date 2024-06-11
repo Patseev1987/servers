@@ -10,6 +10,7 @@ import ru.patseev.recordsserver.domain.Tool;
 import ru.patseev.recordsserver.domain.enums.ToolType;
 import ru.patseev.recordsserver.repositoryies.ToolRepository;
 import ru.patseev.recordsserver.retrofit.ApiFactory;
+import ru.patseev.recordsserver.services.client.RestTemplateClient;
 import ru.patseev.recordsserver.utils.MyMapper;
 
 import java.io.IOException;
@@ -21,40 +22,49 @@ public class ToolService {
     private final ToolRepository toolRepository;
     private final ApiFactory api;
     private final MyMapper mapper;
+    private final RestTemplateClient restTemplateClient;
 
     {
-      // initData();
+        // initData();
     }
 
     //get all tools
     public List<Tool> getAllTools() {
         return toolRepository.findAll();
     }
+
     //get all tools which contain code
     public List<Tool> getToolByCodeLike(String code) {
         return toolRepository.findAllByCodeLike(code);
     }
+
     //get tool by code
     public Tool getToolByCode(String code) {
         return toolRepository.findByCode(code);
     }
+
     //add tool
     public Tool addTool(Tool tool) {
-        var newTool = toolRepository.save(tool);
-      var sss =  api.getApiTransactions().addTool(mapper.toToolDTO(tool));
-        return newTool;
+        restTemplateClient.addTool(tool);
+        return toolRepository.save(tool);
+    }
+
+    //update tool
+    public Tool updateTool(Tool tool) {
+        restTemplateClient.updateTool(tool);
+        return toolRepository.save(tool);
     }
 
 
-    private void initData(){
-        new Thread( () -> {
+    private void initData() {
+        new Thread(() -> {
 
             var tool1 = Tool.builder()
                     .code("2004-9090")
                     .name("CNMG120404")
                     .description("Inner")
                     .type(ToolType.CUTTING)
-                    .place(new Place("1","2","3"))
+                    .place(new Place("1", "2", "3"))
                     .icon("http://ff.ru")
                     .build();
 
@@ -63,7 +73,7 @@ public class ToolService {
                     .name("CNMG120408")
                     .description("Inner")
                     .type(ToolType.CUTTING)
-                    .place(new Place("1","2","3"))
+                    .place(new Place("1", "2", "3"))
                     .icon("http://ff.ru")
                     .build();
 
@@ -72,7 +82,7 @@ public class ToolService {
                     .name("DNMG150604")
                     .description("Inner")
                     .type(ToolType.CUTTING)
-                    .place(new Place("1","2","3"))
+                    .place(new Place("1", "2", "3"))
                     .icon("http://ff.ru")
                     .build();
 
@@ -81,7 +91,7 @@ public class ToolService {
                     .name("DNMG150604")
                     .description("Inner")
                     .type(ToolType.CUTTING)
-                    .place(new Place("1","2","3"))
+                    .place(new Place("1", "2", "3"))
                     .icon("http://ff.ru")
                     .build();
 
@@ -90,7 +100,7 @@ public class ToolService {
                     .name("some tool")
                     .description("Some Tool")
                     .type(ToolType.MEASURE)
-                    .place(new Place("1","2","3"))
+                    .place(new Place("1", "2", "3"))
                     .icon("http://ff.ru")
                     .build();
 
@@ -99,7 +109,7 @@ public class ToolService {
                     .name("measure tool")
                     .description("some tool")
                     .type(ToolType.MEASURE)
-                    .place(new Place("1","2","3"))
+                    .place(new Place("1", "2", "3"))
                     .icon("http://ff.ru")
                     .build();
 
@@ -108,16 +118,16 @@ public class ToolService {
                     .name("for machine")
                     .description("helper")
                     .type(ToolType.HELPERS)
-                    .place(new Place("1","2","3"))
+                    .place(new Place("1", "2", "3"))
                     .icon("http://ff.ru")
                     .build();
 
             try {
                 Thread.sleep(1500);
-            }catch (InterruptedException e){
+            } catch (InterruptedException e) {
                 e.printStackTrace();
             }
-            var tools = List.of(tool7,tool1,tool2,tool3,tool4,tool5,tool6);
+            var tools = List.of(tool7, tool1, tool2, tool3, tool4, tool5, tool6);
             tools.forEach(tool -> addTool(tool));
         }
         ).start();

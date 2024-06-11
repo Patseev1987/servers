@@ -35,7 +35,7 @@ public class ToolController {
     //update tool
     @PutMapping("/update")
     public Tool updateTool(@RequestBody Tool tool) {
-        return toolService.addTool(tool);
+        return toolService.updateTool(tool);
     }
 
 }
