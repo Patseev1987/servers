@@ -10,7 +10,7 @@ import java.util.List;
 @Builder
 @AllArgsConstructor
 @NoArgsConstructor
-public class JawDTO {
+public class JawResponse {
     private Long id;
 
     private String name;
@@ -21,5 +21,5 @@ public class JawDTO {
 
     private Place place;
 
-    public List<PhotoJawsDTO> photos;
+    public List<PhotoJawsResponse> photos;
 }

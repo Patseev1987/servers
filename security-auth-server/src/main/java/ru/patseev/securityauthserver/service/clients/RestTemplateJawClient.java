@@ -2,7 +2,6 @@ package ru.patseev.securityauthserver.service.clients;
 
 import lombok.RequiredArgsConstructor;
 import org.springframework.core.ParameterizedTypeReference;
-import org.springframework.core.io.FileSystemResource;
 import org.springframework.core.io.Resource;
 import org.springframework.http.*;
 import org.springframework.stereotype.Component;
@@ -10,7 +9,7 @@ import org.springframework.util.LinkedMultiValueMap;
 import org.springframework.web.client.RestTemplate;
 import org.springframework.web.multipart.MultipartFile;
 import ru.patseev.securityauthserver.dto.Jaw;
-import ru.patseev.securityauthserver.dto.JawDTO;
+import ru.patseev.securityauthserver.dto.JawResponse;
 
 import java.util.List;
 
@@ -20,8 +19,8 @@ public class RestTemplateJawClient {
     private final RestTemplate restTemplate;
 
     //get all jaws
-    public List<JawDTO> getJaws() {
-        ResponseEntity<List<JawDTO>> restExchange =
+    public List<JawResponse> getJaws() {
+        ResponseEntity<List<JawResponse>> restExchange =
                 restTemplate.exchange(
                         "http://jaws-server/jaws",
                         HttpMethod.GET,
@@ -77,9 +76,8 @@ public class RestTemplateJawClient {
 
     //delete photo by file name
     public void deletePhoto(String fileName) {
-        ResponseEntity<Void> restExchange =
                 restTemplate.exchange(
-                        "http://my-gateway-server/jaws/delete/photo?filename={fileName}",
+                        "http://my-gateway-server/jaws/photo/delete?fileName={fileName}",
                         HttpMethod.DELETE,
                         null, Void.class, fileName);
     }

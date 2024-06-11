@@ -4,9 +4,7 @@ import lombok.RequiredArgsConstructor;
 import org.springframework.web.bind.annotation.*;
 import ru.patseev.recordsserver.domain.enums.Department;
 import ru.patseev.recordsserver.domain.Worker;
-import ru.patseev.recordsserver.retrofit.ApiFactory;
 import ru.patseev.recordsserver.services.WorkerService;
-import ru.patseev.recordsserver.utils.MyMapper;
 
 import java.util.List;
 
@@ -44,7 +42,7 @@ public class WorkerController {
     //update worker
     @PutMapping("/update")
     public Worker updateWorker(@RequestBody Worker worker) {
-        return createWorker(worker);
+        return workerService.update(worker);
     }
 
 }

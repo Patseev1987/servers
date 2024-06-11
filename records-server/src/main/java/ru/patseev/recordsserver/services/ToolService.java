@@ -1,27 +1,20 @@
 package ru.patseev.recordsserver.services;
 
 
-import lombok.AllArgsConstructor;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
-import org.springframework.transaction.annotation.Transactional;
 import ru.patseev.recordsserver.domain.Place;
 import ru.patseev.recordsserver.domain.Tool;
 import ru.patseev.recordsserver.domain.enums.ToolType;
 import ru.patseev.recordsserver.repositoryies.ToolRepository;
-import ru.patseev.recordsserver.retrofit.ApiFactory;
 import ru.patseev.recordsserver.services.client.RestTemplateClient;
-import ru.patseev.recordsserver.utils.MyMapper;
 
-import java.io.IOException;
 import java.util.List;
 
 @Service
 @RequiredArgsConstructor
 public class ToolService {
     private final ToolRepository toolRepository;
-    private final ApiFactory api;
-    private final MyMapper mapper;
     private final RestTemplateClient restTemplateClient;
 
     {
@@ -51,7 +44,7 @@ public class ToolService {
 
     //update tool
     public Tool updateTool(Tool tool) {
-      //  restTemplateClient.updateTool(tool);
+        restTemplateClient.updateTool(tool);
         return toolRepository.save(tool);
     }
 

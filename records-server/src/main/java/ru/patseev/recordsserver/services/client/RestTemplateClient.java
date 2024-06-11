@@ -9,7 +9,9 @@ import org.springframework.web.client.RequestCallback;
 import org.springframework.web.client.ResponseExtractor;
 import org.springframework.web.client.RestTemplate;
 import ru.patseev.recordsserver.domain.Tool;
+import ru.patseev.recordsserver.domain.Worker;
 import ru.patseev.recordsserver.dto.ToolDTO;
+import ru.patseev.recordsserver.dto.WorkerDTO;
 
 import java.util.Objects;
 
@@ -32,18 +34,37 @@ public class RestTemplateClient {
     }
 
     //update tool from transaction-server
-    public ToolDTO updateTool(Tool tool) {
+    public void updateTool(Tool tool) {
         var toolDTO = ToolDTO.builder()
                 .name(tool.getName())
                 .code(tool.getCode())
                 .build();
-        RequestCallback callback = restTemplate.httpEntityCallback(toolDTO, ToolDTO.class);
-        ResponseExtractor<ResponseEntity<ToolDTO>> extractor = restTemplate.responseEntityExtractor(Tool.class);
-        ResponseEntity<ToolDTO> restExchange = restTemplate.execute(
-                "http://my-gateway-server/transactions/tools/update",
-                HttpMethod.PUT,
-                callback,
-                extractor);
-        return Objects.requireNonNull(restExchange).getBody();
+        restTemplate.put("http://my-gateway-server/transactions/tools/update", toolDTO);
+    }
+
+    //add worker from transaction-server
+    public WorkerDTO addWorker(Worker worker) {
+        var workerDTO = WorkerDTO.builder()
+                .firstName(worker.getFirstName())
+                .lastName(worker.getLastName())
+                .department(worker.getDepartment())
+                .id(worker.getId())
+                .build();
+        return restTemplate.postForObject(
+                "http://my-gateway-server/transactions/workers/add",
+                workerDTO,
+                WorkerDTO.class
+        );
+    }
+
+    //update worker from transaction-server
+    public void updateWorker(Worker worker) {
+        var workerDTO = WorkerDTO.builder()
+                .firstName(worker.getFirstName())
+                .lastName(worker.getLastName())
+                .department(worker.getDepartment())
+                .id(worker.getId())
+                .build();
+        restTemplate.put("http://my-gateway-server/transactions/workers/update", workerDTO);
     }
 }

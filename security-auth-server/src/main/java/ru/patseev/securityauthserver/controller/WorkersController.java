@@ -35,17 +35,17 @@ public class WorkersController {
         return service.getWorkersByDepartment(department);
     }
 
-    @GetMapping("/workers/{id}")
+    @GetMapping("/{id}")
     public Worker getWorkerById(@PathVariable Long id) {
         return service.getWorkerById(id);
     }
 
-    @PostMapping("/workers/add")
+    @PostMapping("/add")
     public Worker addWorker(@RequestBody Worker worker) {
         return service.addWorker(worker);
     }
 
-    @PutMapping("/workers/update")
+    @PutMapping("/update")
     public Worker wupdateWorker(@RequestBody Worker worker) {
         return service.updateWorker(worker);
     }

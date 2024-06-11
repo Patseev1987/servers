@@ -20,7 +20,7 @@ public class PhotoFileController {
         fileService.save(file, ownerId);
     }
     //delete photo by file name
-    @DeleteMapping("/delete/photo")
+    @DeleteMapping("/delete")
     public void deletePhoto(@RequestParam("fileName") String fileName) {
         fileService.deleteFile(fileName);
     }

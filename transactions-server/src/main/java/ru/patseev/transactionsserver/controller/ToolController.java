@@ -30,7 +30,7 @@ public class ToolController {
         return toolService.getToolByCode(code).orElse(Tool.builder().code(ERROR_CODE).build());
     }
     //update tool
-    @PutMapping
+    @PutMapping("/update")
     public Tool updateTool(@RequestBody Tool tool) {
         return toolService.createTool(tool);
     }

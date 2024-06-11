@@ -6,7 +6,6 @@ import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Data;
 import lombok.NoArgsConstructor;
-import ru.patseev.securityauthserver.dto.enums.ToolType;
 
 
 @NoArgsConstructor
@@ -14,7 +13,7 @@ import ru.patseev.securityauthserver.dto.enums.ToolType;
 @Data
 @AllArgsConstructor
 @JsonIgnoreProperties(ignoreUnknown = true)
-public class ToolDTO {
+public class ToolResponse {
 
     private String code;
     private String name;

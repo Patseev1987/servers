@@ -18,10 +18,10 @@ import java.time.LocalDate;
 @JsonIgnoreProperties(ignoreUnknown = true)
 public class Transaction {
     private Long id;
-    private Worker sender;
-    private Worker receiver;
+    private WorkerResponse sender;
+    private WorkerResponse receiver;
     private Integer amount;
-    private Tool tool;
+    private ToolResponse tool;
     @JsonDeserialize(using = LocalDateDeserializer.class)
     @JsonSerialize(using = LocalDateSerializer.class)
     private LocalDate transactionDate;

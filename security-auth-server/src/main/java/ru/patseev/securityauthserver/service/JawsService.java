@@ -4,7 +4,7 @@ import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 import org.springframework.web.multipart.MultipartFile;
 import ru.patseev.securityauthserver.dto.Jaw;
-import ru.patseev.securityauthserver.dto.JawDTO;
+import ru.patseev.securityauthserver.dto.JawResponse;
 import ru.patseev.securityauthserver.service.clients.RestTemplateJawClient;
 
 import java.util.List;
@@ -15,7 +15,7 @@ public class JawsService {
     private final RestTemplateJawClient rest;
 
     //get all jaws
-    public List<JawDTO> getJaws() {
+    public List<JawResponse> getJaws() {
         return rest.getJaws();
     }
 

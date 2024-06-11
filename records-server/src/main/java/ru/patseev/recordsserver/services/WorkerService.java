@@ -6,10 +6,8 @@ import ru.patseev.recordsserver.domain.Worker;
 import ru.patseev.recordsserver.domain.enums.Department;
 import ru.patseev.recordsserver.domain.enums.WorkerType;
 import ru.patseev.recordsserver.repositoryies.WorkerRepository;
-import ru.patseev.recordsserver.retrofit.ApiFactory;
-import ru.patseev.recordsserver.utils.MyMapper;
+import ru.patseev.recordsserver.services.client.RestTemplateClient;
 
-import java.io.IOException;
 import java.time.LocalDate;
 import java.util.List;
 
@@ -18,17 +16,23 @@ import java.util.List;
 public class WorkerService {
 
     private final WorkerRepository workerRepository;
-    private final ApiFactory api;
-    private final MyMapper mapper;
+    private final RestTemplateClient restTemplateClient;
 
     {
-      // initData();
+        // initData();
     }
 
     //add worker
     public Worker create(Worker worker) {
-        var newWorker =  workerRepository.save(worker);
-       var www = api.getApiTransactions().addWorker(mapper.toWorkerDTO(worker));
+        var newWorker = workerRepository.save(worker);
+        restTemplateClient.addWorker(newWorker);
+        return newWorker;
+    }
+
+    //update worker
+    public Worker update(Worker worker) {
+        var newWorker = workerRepository.save(worker);
+        restTemplateClient.updateWorker(newWorker);
         return newWorker;
     }
 
@@ -41,19 +45,20 @@ public class WorkerService {
     public Worker getStorageWorkerByDepartment(Department department) {
         return workerRepository.findStorageWorkerByDepartment(department).orElseThrow();
     }
+
     //get workers by department
     public List<Worker> getWorkersByDepartment(Department department) {
         return workerRepository.findAllWorkersByDepartment(department);
     }
+
     //get worker by id
     public Worker getWorkerById(Long workerId) {
         return workerRepository.findById(workerId).orElse(null);
     }
 
 
-
-    private void initData(){
-        new Thread( () -> {
+    private void initData() {
+        new Thread(() -> {
             var worker1 = Worker.builder()
                     .id(1L)
                     .firstName("ivan")

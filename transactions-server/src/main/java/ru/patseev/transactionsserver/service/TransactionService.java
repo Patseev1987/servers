@@ -7,16 +7,13 @@ import ru.patseev.transactionsserver.domain.enums.Department;
 import ru.patseev.transactionsserver.domain.Transaction;
 import ru.patseev.transactionsserver.dto.StorageRecordDTO;
 import ru.patseev.transactionsserver.repository.TransactionsRepository;
-import ru.patseev.transactionsserver.retrofit.ApiFactory;
+import ru.patseev.transactionsserver.service.client.RestTemplateClient;
 import ru.patseev.transactionsserver.utils.MyMapper;
-
-import java.io.IOException;
 import java.time.LocalDate;
 import java.util.ArrayList;
 import java.util.Comparator;
 import java.util.List;
 import java.util.Objects;
-
 import static ru.patseev.transactionsserver.domain.enums.Department.DEPARTMENT_19;
 import static ru.patseev.transactionsserver.domain.enums.Department.SHARPENING;
 
@@ -25,9 +22,10 @@ import static ru.patseev.transactionsserver.domain.enums.Department.SHARPENING;
 @RequiredArgsConstructor
 public class TransactionService {
     private final TransactionsRepository transactionsRepository;
-    private final ApiFactory api;
     private final MyMapper mapper;
+    private final RestTemplateClient restTemplateClient;
 
+    //create transactions
     @Transactional
     public Transaction createTransaction(Transaction transaction) {
         transaction.setTransactionDate(LocalDate.now());
@@ -35,34 +33,26 @@ public class TransactionService {
         return transactionsRepository.save(transaction);
     }
 
+    //get all transactions
     public List<Transaction> getAllTransactions() {
         return transactionsRepository.findAll();
     }
 
+    //update records
     @Transactional
     public void changeStorageRecord(Transaction transaction) {
-        StorageRecordDTO senderStorageRecord;
-        StorageRecordDTO receiverStorageRecord;
-        try {
-            senderStorageRecord = api.getApiRecords()
-                    .getRecordByWorkerIdAndToolCode(
-                            transaction.getSender().getId(),
-                            transaction.getTool().getCode()
-                    ).execute().body();
+        StorageRecordDTO senderStorageRecord = restTemplateClient.getRecordByWorkerIdAndToolCode(
+                transaction.getSender().getId(),
+                transaction.getTool().getCode()
+        );
+        StorageRecordDTO receiverStorageRecord = restTemplateClient.getRecordByWorkerIdAndToolCode(
+                transaction.getReceiver().getId(),
+                transaction.getTool().getCode()
+        );
 
-            receiverStorageRecord = api.getApiRecords()
-                    .getRecordByWorkerIdAndToolCode(
-                            transaction.getReceiver().getId(),
-                            transaction.getTool().getCode()
-                    ).execute().body();
-
-            if((receiverStorageRecord != null) && (senderStorageRecord != null)
-                    && (Objects.equals(senderStorageRecord.getId(), receiverStorageRecord.getId()))) {
-                throw new RuntimeException("You can't be sender and receiver at the same time");
-            }
-
-        } catch (IOException e) {
-            throw new RuntimeException(e);
+        if ((receiverStorageRecord != null) && (senderStorageRecord != null)
+                && (Objects.equals(senderStorageRecord.getId(), receiverStorageRecord.getId()))) {
+            throw new RuntimeException("You can't be sender and receiver at the same time");
         }
 
         if (senderStorageRecord != null && senderStorageRecord.getId() != -1) {
@@ -71,23 +61,15 @@ public class TransactionService {
             if (newValue < 0) {
                 throw new RuntimeException("Negative amount not allowed");
             }
-         var sender =  api.getApiRecords().updateRecord(senderStorageRecord);
+            var sender = restTemplateClient.updateRecord(senderStorageRecord);
+            System.out.println("sender records update -> " + sender);
 
-            try {
-                System.out.println("sender records update -> " + sender.execute().body());
-            } catch (IOException e) {
-                throw new RuntimeException(e);
-            }
         }
         if (receiverStorageRecord != null && receiverStorageRecord.getId() != -1) {
             int newValue = receiverStorageRecord.getAmount() + transaction.getAmount();
             receiverStorageRecord.setAmount(newValue);
-          var receiver =  api.getApiRecords().updateRecord(receiverStorageRecord);
-            try {
-                System.out.println("sender records update -> " + receiver.execute().body());
-            } catch (IOException e) {
-                throw new RuntimeException(e);
-            }
+            var receiver = restTemplateClient.updateRecord(receiverStorageRecord);
+            System.out.println("sender records update -> " + receiver);
 
         } else {
             var transactionDTO = mapper.toTransactionDTO(transaction);
@@ -95,12 +77,9 @@ public class TransactionService {
             newStorageRecord.setAmount(transactionDTO.getAmount());
             newStorageRecord.setTool(transactionDTO.getTool());
             newStorageRecord.setWorker(transactionDTO.getReceiver());
-          var newnewnew =  api.getApiRecords().addRecord(newStorageRecord);
-            try {
-                System.out.println("sender records update -> " + newnewnew.execute().body());
-            } catch (IOException e) {
-                throw new RuntimeException(e);
-            }
+            var newRecord = restTemplateClient.addRecord(newStorageRecord);
+            System.out.println("sender records update -> " + newRecord);
+
         }
     }
 

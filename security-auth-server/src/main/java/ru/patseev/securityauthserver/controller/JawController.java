@@ -4,7 +4,7 @@ import lombok.RequiredArgsConstructor;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.multipart.MultipartFile;
 import ru.patseev.securityauthserver.dto.Jaw;
-import ru.patseev.securityauthserver.dto.JawDTO;
+import ru.patseev.securityauthserver.dto.JawResponse;
 import ru.patseev.securityauthserver.service.JawsService;
 
 import java.util.List;
@@ -17,7 +17,7 @@ public class JawController {
 
     @GetMapping
     //get all jaws
-    public List<JawDTO> getJaws() {
+    public List<JawResponse> getJaws() {
         return jawService.getJaws();
     }
 
@@ -47,7 +47,7 @@ public class JawController {
 
     @DeleteMapping("photo/delete")
     //delete photo by file name
-    public void deletePhoto(@RequestParam String fileName) {
+    public void deletePhoto(@RequestParam("fileName") String fileName) {
         jawService.deletePhoto(fileName);
     }
 }
