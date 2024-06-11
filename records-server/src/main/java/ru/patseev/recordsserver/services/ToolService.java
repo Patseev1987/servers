@@ -51,7 +51,7 @@ public class ToolService {
 
     //update tool
     public Tool updateTool(Tool tool) {
-        restTemplateClient.updateTool(tool);
+      //  restTemplateClient.updateTool(tool);
         return toolRepository.save(tool);
     }
 
