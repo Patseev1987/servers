@@ -40,7 +40,7 @@ public class RestTemplateClient {
         RequestCallback callback = restTemplate.httpEntityCallback(toolDTO, ToolDTO.class);
         ResponseExtractor<ResponseEntity<ToolDTO>> extractor = restTemplate.responseEntityExtractor(Tool.class);
         ResponseEntity<ToolDTO> restExchange = restTemplate.execute(
-                "http://my-gateway-server/records/tools/update",
+                "http://my-gateway-server/transactions/tools/update",
                 HttpMethod.PUT,
                 callback,
                 extractor);
