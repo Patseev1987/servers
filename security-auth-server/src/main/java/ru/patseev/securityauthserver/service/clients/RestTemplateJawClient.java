@@ -32,9 +32,9 @@ public class RestTemplateJawClient {
 
     //add jaw
     public Jaw addJaw(Jaw jaw) {
-        return  restTemplate.postForObject(
-                        "http://my-gateway-server/jaws/add",
-                        jaw, Jaw.class);
+        return restTemplate.postForObject(
+                "http://my-gateway-server/jaws/add",
+                jaw, Jaw.class);
     }
 
     //update jaw

@@ -4,7 +4,7 @@ package ru.patseev.securityauthserver.auth.services;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 import ru.patseev.securityauthserver.auth.domain.User;
-import ru.patseev.securityauthserver.auth.dto.UserDTO;
+import ru.patseev.securityauthserver.auth.dto.UserDTOForSingIn;
 
 
 import java.util.Optional;
@@ -16,7 +16,7 @@ public class LoginService {
 
 
 
-    public Optional<User> login(UserDTO userDTO) {
+    public Optional<User> login(UserDTOForSingIn userDTO) {
         User user = userService.getByUsername(userDTO.username());
         if (user != null && userDTO.password().equals(user.getPassword())) {
             return Optional.of(user);
@@ -24,7 +24,7 @@ public class LoginService {
         return Optional.empty();
     }
 
-    public User register(UserDTO userDTO) {
+    public User register(UserDTOForSingIn userDTO) {
         userService.create(userDTO);
         return userService.getByUsername(userDTO.username());
     }

@@ -6,7 +6,7 @@ import org.springframework.security.core.userdetails.UserDetailsService;
 import org.springframework.stereotype.Service;
 import ru.patseev.securityauthserver.auth.domain.Role;
 import ru.patseev.securityauthserver.auth.domain.User;
-import ru.patseev.securityauthserver.auth.dto.UserDTO;
+import ru.patseev.securityauthserver.auth.dto.UserDTOForSingIn;
 import ru.patseev.securityauthserver.auth.repository.UserRepository;
 
 
@@ -31,7 +31,7 @@ public class UserService {
      *
      * @return созданный пользователь
      */
-    public User create(UserDTO userDTO) {
+    public User create(UserDTOForSingIn userDTO) {
         if (userRepository.existsByUsername(userDTO.username())) {
             throw new RuntimeException("Пользователь с таким именем уже существует");
         }

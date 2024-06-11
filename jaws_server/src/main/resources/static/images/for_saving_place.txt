@@ -1,0 +1,2 @@
+Sometimes spring deletes this directory.
+This file is needed for saving this directory.
