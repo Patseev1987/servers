@@ -7,6 +7,7 @@ import org.springframework.stereotype.Service;
 import ru.patseev.securityauthserver.auth.domain.Role;
 import ru.patseev.securityauthserver.auth.domain.User;
 import ru.patseev.securityauthserver.auth.dto.UserDTOForSingIn;
+import ru.patseev.securityauthserver.auth.dto.UserDTOForUpdate;
 import ru.patseev.securityauthserver.auth.repository.UserRepository;
 
 
@@ -42,6 +43,12 @@ public class UserService {
         return save(user);
     }
 
+    public void update(UserDTOForUpdate userDTO) {
+        var user = userRepository.findByUsername(userDTO.username()).orElseThrow();
+        user.setPassword(userDTO.newPassword());
+        userRepository.save(user);
+    }
+
 
     /**
      * Получение пользователя по имени пользователя
@@ -49,14 +56,8 @@ public class UserService {
      * @return пользователь
      */
     public User getByUsername(String username) {
-      var user = userRepository.findByUsername(username)
+      return userRepository.findByUsername(username)
                 .orElse(null);
-      if (user != null || user.getUsername() != null) {
-        return user;
-
-      }
-
-         return user;
     }
     /**
      * Получение пользователя по имени пользователя

@@ -64,9 +64,8 @@ public class JwtRequestFilter extends OncePerRequestFilter {
         );
 
         http.authorizeHttpRequests(auth -> auth
-                .requestMatchers("/auth/sing-up").permitAll()
-                .requestMatchers("/swagger-ui/index.html").permitAll()
-                .requestMatchers("/auth/sing-in").permitAll()
+                .requestMatchers("/auth/sign-up").permitAll()
+                .requestMatchers("/auth/sign-in").permitAll()
                 .anyRequest().authenticated());
 
         //отключение CSRF
