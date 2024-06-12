@@ -9,6 +9,7 @@ import lombok.RequiredArgsConstructor;
 import org.springframework.context.annotation.Bean;
 import org.springframework.http.HttpStatus;
 import org.springframework.security.config.annotation.web.builders.HttpSecurity;
+import org.springframework.security.config.annotation.web.configuration.WebSecurityCustomizer;
 import org.springframework.security.config.annotation.web.configurers.AbstractHttpConfigurer;
 import org.springframework.security.core.Authentication;
 import org.springframework.security.core.context.SecurityContextHolder;
@@ -66,6 +67,7 @@ public class JwtRequestFilter extends OncePerRequestFilter {
         http.authorizeHttpRequests(auth -> auth
                 .requestMatchers("/auth/sign-up").permitAll()
                 .requestMatchers("/auth/sign-in").permitAll()
+                .requestMatchers("/custom/**").permitAll()
                 .anyRequest().authenticated());
 
         //отключение CSRF
@@ -74,4 +76,5 @@ public class JwtRequestFilter extends OncePerRequestFilter {
 
         return http.build();
     }
+
 }

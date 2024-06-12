@@ -10,8 +10,6 @@ import java.util.Optional;
 
 public interface WorkerRepository extends JpaRepository<Worker, Long> {
 
-    Optional<Worker> findByLogin(String login);
-
     @Query("from Worker W where W.department =:department and W.type = 'STORAGE_WORKER'")
     Optional<Worker> findStorageWorkerByDepartment(Department department);
 

@@ -40,11 +40,6 @@ public class WorkersController {
         return service.getWorkerById(id);
     }
 
-    @PostMapping("/add")
-    public Worker addWorker(@RequestBody Worker worker) {
-        return service.addWorker(worker);
-    }
-
     @PutMapping("/update")
     public Worker wupdateWorker(@RequestBody Worker worker) {
         return service.updateWorker(worker);

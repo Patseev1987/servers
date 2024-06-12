@@ -16,22 +16,10 @@ import ru.patseev.securityauthserver.auth.repository.UserRepository;
 public class UserService {
     private final UserRepository userRepository;
 
-
-    /**
-     * Сохранение пользователя
-     *
-     * @return сохраненный пользователь
-     */
     public User save(User user) {
         return userRepository.save(user);
     }
 
-
-    /**
-     * Создание пользователя
-     *
-     * @return созданный пользователь
-     */
     public User create(UserDTOForSingIn userDTO) {
         if (userRepository.existsByUsername(userDTO.username())) {
             throw new RuntimeException("Пользователь с таким именем уже существует");
@@ -49,34 +37,9 @@ public class UserService {
         userRepository.save(user);
     }
 
-
-    /**
-     * Получение пользователя по имени пользователя
-     *
-     * @return пользователь
-     */
     public User getByUsername(String username) {
       return userRepository.findByUsername(username)
                 .orElse(null);
     }
-    /**
-     * Получение пользователя по имени пользователя
-     * <p>
-     * Нужен для Spring Security
-     *
-     * @return пользователь
-     */
-    public UserDetailsService userDetailsService() {
-        return this::getByUsername;
-    }
-    /**
-     * Получение текущего пользователя
-     *
-     * @return текущий пользователь
-     */
-    public User getCurrentUser() {
-        // Получение имени пользователя из контекста Spring Security
-        var username = SecurityContextHolder.getContext().getAuthentication().getName();
-        return getByUsername(username);
-    }
+
 }

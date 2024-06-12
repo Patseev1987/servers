@@ -9,11 +9,13 @@ import ru.patseev.transactionsserver.dto.StorageRecordDTO;
 import ru.patseev.transactionsserver.repository.TransactionsRepository;
 import ru.patseev.transactionsserver.service.client.RestTemplateClient;
 import ru.patseev.transactionsserver.utils.MyMapper;
+
 import java.time.LocalDate;
 import java.util.ArrayList;
 import java.util.Comparator;
 import java.util.List;
 import java.util.Objects;
+
 import static ru.patseev.transactionsserver.domain.enums.Department.DEPARTMENT_19;
 import static ru.patseev.transactionsserver.domain.enums.Department.SHARPENING;
 
@@ -61,25 +63,19 @@ public class TransactionService {
             if (newValue < 0) {
                 throw new RuntimeException("Negative amount not allowed");
             }
-            var sender = restTemplateClient.updateRecord(senderStorageRecord);
-            System.out.println("sender records update -> " + sender);
-
+            restTemplateClient.updateRecord(senderStorageRecord);
         }
         if (receiverStorageRecord != null && receiverStorageRecord.getId() != -1) {
             int newValue = receiverStorageRecord.getAmount() + transaction.getAmount();
             receiverStorageRecord.setAmount(newValue);
-            var receiver = restTemplateClient.updateRecord(receiverStorageRecord);
-            System.out.println("sender records update -> " + receiver);
-
+            restTemplateClient.updateRecord(receiverStorageRecord);
         } else {
             var transactionDTO = mapper.toTransactionDTO(transaction);
             var newStorageRecord = new StorageRecordDTO();
             newStorageRecord.setAmount(transactionDTO.getAmount());
             newStorageRecord.setTool(transactionDTO.getTool());
             newStorageRecord.setWorker(transactionDTO.getReceiver());
-            var newRecord = restTemplateClient.addRecord(newStorageRecord);
-            System.out.println("sender records update -> " + newRecord);
-
+            restTemplateClient.addRecord(newStorageRecord);
         }
     }
 

@@ -8,6 +8,4 @@ import java.util.List;
 
 
 public interface JawsRepository extends JpaRepository<Jaw, Long> {
-    @Query("from Jaw  jaw where jaw.name like :name")
-    List<Jaw> findAllByName(String name);
 }
