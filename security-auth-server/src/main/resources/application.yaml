@@ -33,6 +33,3 @@ eureka:
 
   instance:
     prefer-ip-address: true
-springdoc:
-  swagger-ui:
-    path: /custom/swagger-ui
