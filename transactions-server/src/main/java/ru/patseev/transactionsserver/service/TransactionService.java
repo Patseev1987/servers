@@ -78,11 +78,11 @@ public class TransactionService {
             restTemplateClient.addRecord(newStorageRecord);
         }
     }
-
+    // get transaction where sender id or receiver id equals worker id
     public List<Transaction> findTransactionsBySenderIdAndReceiverId(Long workerId) {
         return transactionsRepository.findTransactionsBySenderIdAndReceiverId(workerId);
     }
-
+    // get transactions with sender department and receiver department by tool code
     public List<Transaction> getTransactionsBySenderDepartmentAndReceiverDepartment(Department senderDepartment,
                                                                                     Department receiverDepartment,
                                                                                     String toolCode) {
@@ -92,6 +92,7 @@ public class TransactionService {
                         toolCode);
     }
 
+    // get transactions with department of sharpen by tool code and sort by date
     public List<Transaction> getTransactionsWithSharpening(String toolCode) {
         var result = new ArrayList<Transaction>();
         var toSharpen = getTransactionsBySenderDepartmentAndReceiverDepartment(

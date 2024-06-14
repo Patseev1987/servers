@@ -25,6 +25,7 @@ public class AuthController {
     private final String ROLE_USER = "USER";
     private final String TOKEN_PREFIX = "Bearer ";
 
+    //login
     @PostMapping("/sign-in")
     public ResponseEntity<JwtTokenResponse> login(@RequestBody UserDTOForSingIn userDTO) {
         var user = loginService.login(userDTO).orElse(null);
@@ -34,6 +35,7 @@ public class AuthController {
         return ResponseEntity.ok(new JwtTokenResponse(TOKEN_PREFIX + jwtTokenService.generateToken(user,ROLE_USER)));
     }
 
+    //register new user
     @PostMapping("/sign-up")
     public ResponseEntity<JwtTokenResponse> singUp(@RequestBody UserDTOForSingUp userDTO) {
         var newUser = loginService.register(userDTO);
@@ -41,6 +43,7 @@ public class AuthController {
                new JwtTokenResponse(TOKEN_PREFIX + jwtTokenService.generateToken(newUser, ROLE_USER)));
     }
 
+    //change password
     @PutMapping("/update")
     public ResponseEntity<String> updatePassword(@RequestBody UserDTOForUpdate userDTO) {
         loginService.updatePassword(userDTO);

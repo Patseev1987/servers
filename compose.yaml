@@ -40,7 +40,7 @@ services:
       eureka:
         condition: service_started
     ports:
-      - ":8090"
+      - "8090"
     environment:
       SERVER_PORT: 8090
     networks:
@@ -60,7 +60,7 @@ services:
       eureka:
         condition: service_started
     ports:
-      - ":8081"
+      - "8081"
     environment:
       SERVER_PORT: 8081
       SPRING_DATASOURCE_URL: jdbc:postgresql://database/diploma
@@ -81,7 +81,7 @@ services:
       eureka:
         condition: service_started
     ports:
-      - ":8085"
+      - "8085"
     environment:
       SERVER_PORT: 8085
       SPRING_DATASOURCE_URL: jdbc:postgresql://database/diploma
@@ -102,7 +102,7 @@ services:
       eureka:
         condition: service_started
     ports:
-      - ":8084"
+      - "8084"
     environment:
       SERVER_PORT: 8084
       SPRING_DATASOURCE_URL: jdbc:postgresql://database/diploma

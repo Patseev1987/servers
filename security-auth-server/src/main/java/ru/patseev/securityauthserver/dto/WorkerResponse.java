@@ -16,6 +16,5 @@ public class WorkerResponse {
     private Long id;
     private String firstName;
     private String lastName;
-    private String patronymic;
     private Department department;
 }

@@ -28,19 +28,7 @@ public class JwtTokenService implements Serializable {
     private String secret;
 
 
-
-
-    private <T> T getClaimFromToken(String token, Function<Claims, T> claimsResolver) {
-        final Claims claims = getAllClaimsFromToken(token);
-        return claimsResolver.apply(claims);
-    }
-
-
-
-    private Claims getAllClaimsFromToken(String token) {
-        return Jwts.parser().decryptWith(getSigningKey()).build().parseSignedClaims(token).getPayload();
-    }
-
+    // generate new token
     public String generateToken(User user, String role) {
         Map<String, Object> claims = new HashMap<>();
         claims.put("role", role);
@@ -54,7 +42,7 @@ public class JwtTokenService implements Serializable {
     }
 
 
-
+    //check auth
     public Authentication getAuthentication(String token) {
         Claims claims = Jwts.parser()
                 .verifyWith(getSigningKey())
@@ -72,6 +60,7 @@ public class JwtTokenService implements Serializable {
         return new UsernamePasswordAuthenticationToken(username, null, authorities);
     }
 
+    //encode token with secret key
     private SecretKey getSigningKey() {
         byte[] keyBytes = Sha512DigestUtils.sha(secret);
         return Keys.hmacShaKeyFor(keyBytes);

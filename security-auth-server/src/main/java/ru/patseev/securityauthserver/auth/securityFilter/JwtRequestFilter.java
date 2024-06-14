@@ -31,7 +31,7 @@ public class JwtRequestFilter extends OncePerRequestFilter {
 
 
 
-    //Фильтр переопределяет проверку токена для spring
+    //filter foe check auth
     @Override
     protected void doFilterInternal(HttpServletRequest request,
                                     HttpServletResponse response,
@@ -40,30 +40,28 @@ public class JwtRequestFilter extends OncePerRequestFilter {
             final String token = request.getHeader(AUTHORIZATION);
             if (token != null && token.startsWith(TOKEN_PREFIX)) {
                 // Validate the JWT token
-                //Декодирование токена
+                //Decode token
                 String tokenWithoutBearer = token.substring(TOKEN_PREFIX.length());
                 Authentication authentication = jwtTokenService.getAuthentication(tokenWithoutBearer);
                 SecurityContextHolder.getContext().setAuthentication(authentication);
             }
         } catch (Exception e) {
-            e.printStackTrace();
             response.setStatus(HttpStatus.UNAUTHORIZED.value());
             return;
         }
         filterChain.doFilter(request, response);
     }
 
-    //Цепочка фильтров
-    //Перенаправление от аутонтификации если есть токены
+    //redefine filter chain with our filter
     @Bean
     public SecurityFilterChain filterChain(HttpSecurity http) throws Exception {
 
-        //Фильтр до аутентификации
+        //set our filter
         http.addFilterBefore(
                 this,
                 UsernamePasswordAuthenticationFilter.class
         );
-
+        // set permissions
         http.authorizeHttpRequests(auth -> auth
                 .requestMatchers("/auth/sign-up").permitAll()
                 .requestMatchers("/auth/sign-in").permitAll()
@@ -79,7 +77,7 @@ public class JwtRequestFilter extends OncePerRequestFilter {
                         "/swagger-ui.html").permitAll()
                 .anyRequest().authenticated());
 
-        //отключение CSRF
+        //switch off CSRF and basic auth
         http.csrf(AbstractHttpConfigurer::disable)
                 .httpBasic(AbstractHttpConfigurer::disable);
 

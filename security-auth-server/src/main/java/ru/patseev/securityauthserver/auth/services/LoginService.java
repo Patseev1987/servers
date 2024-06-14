@@ -20,7 +20,7 @@ public class LoginService {
     private final UserService userService;
     private final WorkerService workerService;
 
-
+    //login old user
     public Optional<User> login(UserDTOForSingIn userDTO) {
         User user = userService.getByUsername(userDTO.username());
         if (user != null && userDTO.password().equals(user.getPassword())) {
@@ -28,7 +28,7 @@ public class LoginService {
         }
         return Optional.empty();
     }
-
+    //register new user
     public User register(UserDTOForSingUp userDTO) {
         var userDTOForSingIn = new UserDTOForSingIn(
                 userDTO.username(), userDTO.password()
@@ -48,7 +48,7 @@ public class LoginService {
         return userService.getByUsername(userDTO.username());
     }
 
-
+    //change password
     public void updatePassword(UserDTOForUpdate userDTO) {
         var user = userService.getByUsername(userDTO.username());
         if (user == null){

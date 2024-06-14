@@ -16,10 +16,12 @@ import ru.patseev.securityauthserver.auth.repository.UserRepository;
 public class UserService {
     private final UserRepository userRepository;
 
+    //save user in database
     public User save(User user) {
         return userRepository.save(user);
     }
 
+    //create new user
     public User create(UserDTOForSingIn userDTO) {
         if (userRepository.existsByUsername(userDTO.username())) {
             throw new RuntimeException("Пользователь с таким именем уже существует");
@@ -31,12 +33,14 @@ public class UserService {
         return save(user);
     }
 
+    //update password
     public void update(UserDTOForUpdate userDTO) {
         var user = userRepository.findByUsername(userDTO.username()).orElseThrow();
         user.setPassword(userDTO.newPassword());
         userRepository.save(user);
     }
 
+    //get user by username(login)
     public User getByUsername(String username) {
       return userRepository.findByUsername(username)
                 .orElse(null);
