@@ -66,6 +66,7 @@ public class FileServiceImpl implements FileService {
         return new StringBuilder()
                 .append(System.getProperty("user.dir"))
                 .append(File.separator)
+                //we should except this path when we use docker
               //  .append("jaws_server")
                 .append(File.separator)
                 .append("src")
