@@ -1,9 +1,9 @@
 spring:
   datasource:
     driver-class-name: org.postgresql.Driver
-    username: jaws
-    password: jaws
-    url: jdbc:postgresql://localhost:5432/jaws
+    username: bogdan
+    password: bogdan
+    url: jdbc:postgresql://database:5432/diploma
   application:
     name: jaws-server
   jpa:
@@ -13,7 +13,7 @@ spring:
         hbm2ddl:
           auto: update
 jaws-server:
-  server-url: server-url/images/
+  server-url: http://213.171.28.91:8081/images/
 server:
   port: 8081
 
@@ -21,6 +21,8 @@ eureka:
   client:
     register-with-eureka: true
     fetch-registry: true
+    service-url:
+      defaultZone: http://eureka:8761/eureka/
 
   instance:
     prefer-ip-address: true

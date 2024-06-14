@@ -1,0 +1,139 @@
+version: '2.1'
+services:
+  database:
+    container_name: postgreSQL
+    image: bitnami/postgresql:13.14.0
+    environment:
+      - POSTGRES_USER=bogdan
+      - POSTGRES_PASSWORD=bogdan
+      - POSTGRES_DB=diploma
+    volumes:
+      - ./init.sql:/docker-entrypoint-initdb.d/1-init.sql
+      - ./data.sql:/docker-entrypoint-initdb.d/2-data.sql
+    ports:
+      - "5432:5432"
+    networks:
+      backend:
+        aliases:
+          - "database"
+    healthcheck:
+      test: ["CMD-SHELL", "pg_isready -U postgres"]
+      interval: 10s
+      timeout: 5s
+      retries: 5
+
+  eureka:
+    build:
+      context: ./eureka_server
+    ports:
+      - "8761:8761"
+    networks:
+      backend:
+        aliases:
+          - "eureka"
+    restart: always
+
+  gateway:
+    build:
+      context: ./my_gateway_server
+    depends_on:
+      eureka:
+        condition: service_started
+    ports:
+      - ":8090"
+    environment:
+      SERVER_PORT: 8090
+    networks:
+      backend:
+        aliases:
+          - "gateway"
+    restart: always
+
+  jaws-server:
+    build:
+      context: ./jaws_server
+    depends_on:
+      database:
+        condition: service_healthy
+      gateway:
+        condition: service_started
+      eureka:
+        condition: service_started
+    ports:
+      - ":8081"
+    environment:
+      SERVER_PORT: 8081
+      SPRING_DATASOURCE_URL: jdbc:postgresql://database/diploma
+    networks:
+      backend:
+        aliases:
+          - "jaws-server"
+    restart: always
+
+  records-server:
+    build:
+      context: ./records-server
+    depends_on:
+      database:
+        condition: service_healthy
+      gateway:
+        condition: service_started
+      eureka:
+        condition: service_started
+    ports:
+      - ":8085"
+    environment:
+      SERVER_PORT: 8085
+      SPRING_DATASOURCE_URL: jdbc:postgresql://database/diploma
+    networks:
+      backend:
+        aliases:
+          - "records-server"
+    restart: always
+
+  transactions-server:
+    build:
+      context: ./transactions-server
+    depends_on:
+      database:
+        condition: service_healthy
+      gateway:
+        condition: service_started
+      eureka:
+        condition: service_started
+    ports:
+      - ":8084"
+    environment:
+      SERVER_PORT: 8084
+      SPRING_DATASOURCE_URL: jdbc:postgresql://database/diploma
+    networks:
+      backend:
+        aliases:
+          - "transactions-server"
+    restart: always
+
+  security-auth-server:
+    build:
+      context: ./security-auth-server
+    depends_on:
+      database:
+        condition: service_healthy
+      gateway:
+        condition: service_started
+      eureka:
+        condition: service_started
+    ports:
+      - "8080:8080"
+    environment:
+      SERVER_PORT: 8080
+      SPRING_DATASOURCE_URL: jdbc:postgresql://database/diploma
+    networks:
+      backend:
+        aliases:
+          - "security-auth-server"
+    restart: always
+
+networks:
+  backend:
+    driver: bridge
+

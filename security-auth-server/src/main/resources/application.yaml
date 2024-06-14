@@ -1,20 +1,18 @@
 spring:
+  datasource:
+    driver-class-name: org.postgresql.Driver
+    username: bogdan
+    password: bogdan
+    url: jdbc:postgresql://database:5432/diploma
   application:
     name: security-auth-server
-  datasource:
-    driver-class-name: com.mysql.jdbc.Driver
-    username: root
-    password: Root1234
-    url: jdbc:mysql://localhost:3306/mydb
-
   jpa:
     properties:
       hibernate:
         show_sql: true
         hbm2ddl:
           auto: update
-        dialect:
-          MySQLDialect: org.hibernate.dialect.MySQLDialect
+
 
 
 
@@ -24,12 +22,14 @@ jwt:
   secret: united-engine-corporation
 
 server:
-  port: 8090
+  port: 8080
 
 eureka:
   client:
     register-with-eureka: true
     fetch-registry: true
+    service-url:
+      defaultZone: http://eureka:8761/eureka/
 
   instance:
     prefer-ip-address: true

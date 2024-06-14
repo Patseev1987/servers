@@ -20,11 +20,11 @@ import org.springframework.context.annotation.Configuration;
 @OpenAPIDefinition(
         info = @Info(
                 contact = @Contact(
-                        name = "Mossaab",
-                        email = "frifita1@gmail.com"
+                        name = "Bogdan Patseev",
+                        email = "patseev1987@gmail.com"
                 ),
-                title = "Spring Security 6+ APP",
-                description = "Spring Boot 3+ Spring Security 6+ example",
+                title = "Java Diploma",
+                description = "Java Diploma",
                 version = "0.0.1-SNAPSHOT"
         ),
         servers = {

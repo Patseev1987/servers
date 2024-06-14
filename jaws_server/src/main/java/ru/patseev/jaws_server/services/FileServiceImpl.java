@@ -2,6 +2,8 @@ package ru.patseev.jaws_server.services;
 
 import jakarta.transaction.Transactional;
 import lombok.RequiredArgsConstructor;
+import org.apache.catalina.webresources.FileResource;
+import org.springframework.core.io.PathResource;
 import org.springframework.stereotype.Service;
 import org.springframework.web.multipart.MultipartFile;
 import ru.patseev.jaws_server.domain.PhotoJaws;
@@ -64,7 +66,7 @@ public class FileServiceImpl implements FileService {
         return new StringBuilder()
                 .append(System.getProperty("user.dir"))
                 .append(File.separator)
-                .append("jaws_server")
+              //  .append("jaws_server")
                 .append(File.separator)
                 .append("src")
                 .append(File.separator)
@@ -77,6 +79,7 @@ public class FileServiceImpl implements FileService {
                 .append("images")
                 .append(File.separator)
                 .toString();
+
     }
 
 }
