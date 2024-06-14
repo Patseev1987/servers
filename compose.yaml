@@ -49,27 +49,6 @@ services:
           - "gateway"
     restart: always
 
-  jaws-server:
-    build:
-      context: ./jaws_server
-    depends_on:
-      database:
-        condition: service_healthy
-      gateway:
-        condition: service_started
-      eureka:
-        condition: service_started
-    ports:
-      - "8081"
-    environment:
-      SERVER_PORT: 8081
-      SPRING_DATASOURCE_URL: jdbc:postgresql://database/diploma
-    networks:
-      backend:
-        aliases:
-          - "jaws-server"
-    restart: always
-
   records-server:
     build:
       context: ./records-server
