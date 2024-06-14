@@ -3,7 +3,7 @@ spring:
     driver-class-name: org.postgresql.Driver
     username: bogdan
     password: bogdan
-    url: jdbc:postgresql://database:5432/diploma
+    url: jdbc:postgresql://localhost:5432/diploma
   application:
     name: security-auth-server
   jpa:
@@ -29,7 +29,7 @@ eureka:
     register-with-eureka: true
     fetch-registry: true
     service-url:
-      defaultZone: http://eureka:8761/eureka/
+      defaultZone: http://localhost:8761/eureka/
 
   instance:
     prefer-ip-address: true
